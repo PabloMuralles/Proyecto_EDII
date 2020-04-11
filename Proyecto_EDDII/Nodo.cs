@@ -9,7 +9,7 @@ namespace Proyecto_EDDII
     {
         public int ID {get;set;}
         public int padre { get; set; }
-        public int[] hijos { get; set; }
+        public Nodo[] hijos { get; set; }
         public Sucursal[] values { get; set; }
         public Nodo(int grado, bool posicion)
         {
@@ -17,12 +17,12 @@ namespace Proyecto_EDDII
             {
                 int valor = ((4 * (grado - 1)) / 3);
                 values = new Sucursal[valor];
-                hijos = new int[grado];
+                hijos = new Nodo[grado];
             }
             else
             {
                 values = new Sucursal[grado - 1];
-                hijos = new int[grado];
+                hijos = new Nodo[grado];
             }
         }
     }
