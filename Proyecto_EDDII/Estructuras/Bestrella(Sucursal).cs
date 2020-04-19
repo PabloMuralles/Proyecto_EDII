@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Proyecto_EDDII.Estructuras
 {
@@ -20,9 +21,12 @@ namespace Proyecto_EDDII.Estructuras
         public bool entrar = true;
         static int grado = 7;
         int identificador = 1;
+        public int Inserciones = 0;
         static int valor = ((4 * (grado - 1)) / 3);
+        List<Nodo> Arbollista = new List<Nodo>();
         public void Insertar(int ID, string Name, string Adress)
         {
+            Inserciones++;
             int num = 0;
             int validar_Hijo = 0;
             if (entrar)
@@ -37,6 +41,7 @@ namespace Proyecto_EDDII.Estructuras
                 };
                 raiz.ID = identificador;
                 identificador++;
+                Arbollista.Add(raiz);
             }
             else
             {
@@ -61,13 +66,15 @@ namespace Proyecto_EDDII.Estructuras
                    {
                     if (espacio == null && num < valor)
                     {
+                          
                         raiz.values[num] = new Sucursal()
                         {
                             ID = ID,
                             Nombre = Name,
                             direccion = Adress
                         };
-                        break;
+                            Arbollista.Add(raiz);
+                            break;
                     }
                     num++;
                     if (num == valor) /// full
@@ -76,20 +83,27 @@ namespace Proyecto_EDDII.Estructuras
                         Sucursal[] Auxiliar_ = Auxiliar(ID, Name, Adress, raiz.values);
                         // dividir el auxiliar
                         int intermedio = Auxiliar_.Length / 2;
-                        //Izquierda hasta la mitad
-                        raiz.hijos[0] = Izquierda(Auxiliar_, intermedio,raiz.ID);
+                            //Izquierda hasta la mitad
+                            ;
+                         raiz.hijos[0] = Izquierda(Auxiliar_, intermedio,raiz.ID);
                         //derecha hasta la mtad
+                       
                         raiz.hijos[1] = Derecha(Auxiliar_,intermedio,raiz.ID);
                        // vaciar raiz
                       Array.Clear(raiz.values, 0, raiz.values.Length);
                       //Asignar nuevo dato a raiz
                       raiz.values[0] = Auxiliar_[intermedio];
+                      Arbollista.Add(raiz);
+                            //componer esta parte
+                            Arbollista.Add(raiz.hijos[0]);
+                            Arbollista.Add(raiz.hijos[1]);
                    }
                   }
                 }
                 raiz.values = Ordenar(raiz.values);
-
             }
+            Escribir();
+            Arbollista.Clear();
         }
         public Sucursal[] Auxiliar(int ID, string Name, string Adress, Sucursal[] datos)
         {
@@ -123,7 +137,11 @@ namespace Proyecto_EDDII.Estructuras
                             direccion = Adress
                         };
                         raiz.hijos[identificador - 4].values = Ordenar(raiz.hijos[identificador - 4].values);
-                        break;
+                    /// Ingresar nueva lista
+                        Arbollista.Add(raiz);
+                        Arbollista.Add(raiz.hijos[identificador - 4]);
+                        Arbollista.Add(raiz.hijos[identificador - 3]);
+                    break;
                     }
                     num++;
                     // esta lleno y revisar hermano derecho
@@ -165,6 +183,10 @@ namespace Proyecto_EDDII.Estructuras
                         direccion = Adress
                     };
                     raiz.hijos[identificador - 3].values = Ordenar(raiz.hijos[identificador - 3].values);
+                    /// Ingresar nueva lista
+                    Arbollista.Add(raiz);
+                    Arbollista.Add(raiz.hijos[identificador - 4]);
+                    Arbollista.Add(raiz.hijos[identificador - 3]);
                     break;
                 }
                 num++;
@@ -221,7 +243,7 @@ namespace Proyecto_EDDII.Estructuras
                             raiz.hijos[identificador - 4].values[i] = Aux_[i];
                         }
                         // colocar ultimo dato
-                        der.values[0] = Aux_[Aux_.Length];                                              
+                        der.values[0] = Aux_[6];                                              
                     }
                     
                 }
@@ -273,6 +295,83 @@ namespace Proyecto_EDDII.Estructuras
                 contador++;
             }
             return valores;
+        }
+        public void Recorrido(Nodo raiz)
+        {
+            if (identificador > 1)
+            {
+               
+            }
+        }
+       public void Escribir()
+        {
+            string Identificar_ID = string.Empty;
+            string CarpetaMetadata_S = Environment.CurrentDirectory;
+            if (!Directory.Exists(Path.Combine(CarpetaMetadata_S, "Metadata_Sucursal")))
+            {
+                Directory.CreateDirectory(Path.Combine(CarpetaMetadata_S, "Metadata_Sucursal"));
+            }
+            using (var writeStream = new FileStream(Path.Combine(CarpetaMetadata_S, "Metadata_Sucursal","Sucursal.txt"), FileMode.OpenOrCreate))
+            {
+                using (var write = new StreamWriter(writeStream))
+                {               
+                    write.WriteLine("Grado " + grado);
+                    write.WriteLine("Raiz " + raiz.ID);
+                    write.WriteLine("Proxima posición Disponible: " + identificador);
+
+                    foreach (var NodoLista in Arbollista)
+                    {
+                        if (NodoLista.padre == 0)
+                        {
+                            write.Write(NodoLista.ID + "|0|");                            
+                        }
+                        else
+                        {
+                            write.Write(NodoLista.ID + "|" + NodoLista.padre + "|");
+
+                        }
+                        if (NodoLista.hijos[0] == null)
+                        {
+                            string hijos = string.Empty;
+                            for (int i = 0; i < grado; i++)
+                            {
+                                hijos += "0|";
+
+                            }
+                            write.Write(hijos);
+
+                        }
+                        else
+                        {
+                            foreach (var nodosHijos in NodoLista.hijos)
+                            {
+                                if (nodosHijos != null)
+                                {
+                                    write.Write(nodosHijos.ID + "|");
+                                }
+                                else
+                                {
+                                    write.Write("0|");
+                                }
+
+
+                            }
+                        }
+
+                        foreach (var valores in NodoLista.values)
+                        {
+                            if (valores == null)
+                            {
+                                break;
+                            }
+                            write.Write(valores.ID + "|");                            
+                        }
+                        write.Write("\n");
+                    }
+
+                    write.Close();
+                }
+            }
         }
     }
 }

@@ -9,6 +9,7 @@ namespace Proyecto_EDDII
     {
         public int ID {get;set;}
         public int padre { get; set; }
+        
         public Nodo[] hijos { get; set; }
         public Sucursal[] values { get; set; }
         public Nodo(int grado, bool posicion)
