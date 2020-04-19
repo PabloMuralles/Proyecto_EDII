@@ -7,7 +7,9 @@ namespace Proyecto_EDDII.Cifrado
 {
     public class Permutaciones
     {
-
+        /// <summary>
+        /// Varibalbes globales de permutaciones tipo solo lectura para que ningun metodo las pueda cambiar
+        /// </summary>
         private readonly string P10;
         private readonly string P8;
         private readonly string P4;
