@@ -73,6 +73,26 @@ namespace Proyecto_EDDII.Cifrado
 
         }
 
+        /// <summary>
+        /// Metodo para poder hacer los Leftshift es decir cambir el primer bit y pasarlo a la ultmia posicion
+        /// </summary>
+        /// <param name="Cadena">Cadena que se necesita realizar el leftshift</param>
+        /// <returns> retornar la nueva cadena que ya se le hizo el leftshift </returns>
+        private string LS_1(string Cadena)
+        {
+            var Primeros5 = Cadena.Substring(0, 5);
+            var Segundos5 = Cadena.Substring(5, 5);
+
+            var Resultado = string.Empty;
+
+            Resultado = (Primeros5.Substring(1, 4) + Primeros5.Substring(0, 1)) + (Segundos5.Substring(1, 4) + Segundos5.Substring(0, 1));
+
+            return Resultado;
+             
+        }
+
+
+
 
 
 
