@@ -91,7 +91,48 @@ namespace Proyecto_EDDII.Cifrado
              
         }
 
+        /// <summary>
+        /// Metodo para poder generar la llaves que se utilizan para el metodo de cifrado y descifrado
+        /// </summary>
+        /// <param name="LlaveUsuario">La llave que ingresara el usuario para pode generar las otras dos llaves </param>
+        /// <param name="P8">La permutacion 8 que se usara para poder hacer los calculos </param>
+        /// <param name="P10">La permutacion 10 que se utilizara para poder hacer los calculo</param>
+        /// <returns>Retorna la llave 1 y  2 para poder hacer el cifrado y descifrado</returns>
+        private (string Llave1 , string Llave2) GeneradorLlaves(string LlaveUsuario, string P8, string P10)
+        {
+            /// variable para poder poner la permutacion de la llaveuuario
+            var Permutacion10 = string.Empty;
+            /// permite poder hacer la permutacion, se va sacando cada numero de la permutacion y despues  ese numero sacado se convierte a 
+            /// entero para poder sacar el valor de la llave en dicho pasicion que lo indica el numero de la permutacion
+            foreach (var CaracterTomar in P10)
+            {
+                Permutacion10 += LlaveUsuario[Convert.ToInt32(CaracterTomar)];
+            }
 
+            var LS1 = LS_1(Permutacion10);
+
+            var Permutacion8 = string.Empty;
+
+            foreach (var CaracterTomar in P8)
+            {
+                Permutacion8 += LS1[Convert.ToInt32(CaracterTomar)];
+            }
+
+            var Llave1 = Permutacion8;
+
+            var LS2 = LS_1(LS_1(Permutacion10));
+
+            var Llave2 = string.Empty;
+
+            foreach (var TomarCaracteres in P8)
+            {
+                Llave2 += LS2[Convert.ToInt32(TomarCaracteres)];
+            }
+
+            return (Llave1, Llave2);
+
+
+        }
 
 
 

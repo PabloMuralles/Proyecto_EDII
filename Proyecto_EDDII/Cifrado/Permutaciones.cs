@@ -155,15 +155,6 @@ namespace Proyecto_EDDII.Cifrado
 
             return Resultado;
         }
-
-
-
-
-
-
-
-
-
-
+ 
     }
 }
