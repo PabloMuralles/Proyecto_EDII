@@ -100,42 +100,44 @@ namespace Proyecto_EDDII.Cifrado
         /// <returns>Retorna la llave 1 y  2 para poder hacer el cifrado y descifrado</returns>
         private (string Llave1 , string Llave2) GeneradorLlaves(string LlaveUsuario, string P8, string P10)
         {
-            /// variable para poder poner la permutacion de la llaveuuario
-            var Permutacion10 = string.Empty;
-            /// permite poder hacer la permutacion, se va sacando cada numero de la permutacion y despues  ese numero sacado se convierte a 
-            /// entero para poder sacar el valor de la llave en dicho pasicion que lo indica el numero de la permutacion
-            foreach (var CaracterTomar in P10)
-            {
-                Permutacion10 += LlaveUsuario[Convert.ToInt32(CaracterTomar)];
-            }
 
+            var Permutacion10 = RealizarPermutaciones(LlaveUsuario, P10);
+             
             var LS1 = LS_1(Permutacion10);
 
-            var Permutacion8 = string.Empty;
-
-            foreach (var CaracterTomar in P8)
-            {
-                Permutacion8 += LS1[Convert.ToInt32(CaracterTomar)];
-            }
-
+            var Permutacion8 = RealizarPermutaciones(LS1, P8);
+  
             var Llave1 = Permutacion8;
 
             var LS2 = LS_1(LS_1(Permutacion10));
 
-            var Llave2 = string.Empty;
-
-            foreach (var TomarCaracteres in P8)
-            {
-                Llave2 += LS2[Convert.ToInt32(TomarCaracteres)];
-            }
-
+            var Llave2 = RealizarPermutaciones(LS2, P8);
+ 
             return (Llave1, Llave2);
-
-
+             
         }
 
+        /// <summary>
+        /// Metodo para realizar cualquier tipo de permutacion
+        /// </summary>
+        /// <param name="RealizarPermutacion">La cadena de bits a la que se le quiere realizar una permutacion</param>
+        /// <param name="Permutacion">La permutacion que se quiere realizar</param>
+        /// <returns>La cadena de bits permutada</returns>
+        private string RealizarPermutaciones(string RealizarPermutacion , string Permutacion)
+        {
+            /// variable para poder poner el resultado de la permutacion
+            var ResultadoPermutacion = string.Empty;
 
+            /// permite poder hacer la permutacion, se va sacando cada numero de la permutacion y despues  ese numero sacado se convierte a 
+            /// entero para poder sacar el valor de la llave en dicho pasicion que lo indica el numero de la permutacion
 
+            foreach (var TomarCaracteres in Permutacion)
+            {
+                ResultadoPermutacion += RealizarPermutacion[Convert.ToInt32(TomarCaracteres)];
+            }
+
+            return ResultadoPermutacion;
+        }
 
     }
 }
