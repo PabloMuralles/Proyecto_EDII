@@ -139,5 +139,49 @@ namespace Proyecto_EDDII.Cifrado
             return ResultadoPermutacion;
         }
 
+
+        public byte Cifrar(byte ByteCifrar, int LlaveUsuario_)
+        {
+            Permutaciones Permutaciones = new Permutaciones();
+
+            if (Permutaciones.VerificarTodasPermutaciones())
+            {
+                /// se convierte la llave de int a string 
+                var LLaveUsuarioBinario = Convert.ToString(LlaveUsuario_, 2).PadLeft(10, '0');
+                /// Primer Blocke
+                (string Llave1, string Llave2) = GeneradorLlaves(LLaveUsuarioBinario, Permutaciones.P10_, Permutaciones.P8_);
+                var ByteBinario = Convert.ToString(ByteCifrar, 2).PadLeft(8, '0');  
+                var PermutacionInicial = RealizarPermutaciones(ByteBinario, Permutaciones.IP_);
+                var Primeros4 = PermutacionInicial.Substring(0, 4);
+                var Segundos4 = PermutacionInicial.Substring(4, 4);
+                /// Esto se le realiza a los segundos 4 
+                var ExpandirPermutar = RealizarPermutaciones(Segundos4, Permutaciones.EP_);
+                var XOR_ = XOR(ExpandirPermutar, Llave1);
+                var SBOXES = S_Boxes(XOR_);
+                var Permutar4 = RealizarPermutaciones(SBOXES, Permutaciones.P4_);
+                ///Aca termina todo lo que se le hace a los segundos 4
+                var XOR_2 = XOR(Permutar4, Primeros4);
+                var PrimerResultado = XOR_2 + Segundos4;
+                /// Segundo Blocke
+                var SW = Segundos4 + XOR_2;
+                var Primero4_2 = SW.Substring(0, 4);
+                var Segundo4_2 = SW.Substring(4, 4);
+                /// Esta aprte solo trabaja con los segundo 4
+                var ExpandirPermutar_2 = RealizarPermutaciones(Segundo4_2, Permutaciones.EP_);
+                var XOR_3 = XOR(ExpandirPermutar_2, Llave2);
+                var SBOOXES_2 = S_Boxes(XOR_3);
+                var P4_2 = RealizarPermutaciones(SBOOXES_2, Permutaciones.P4_);
+                var XOR_4 = XOR(P4_2, Primero4_2);
+                /// Aca termina todo lo que se le hace los segunds 4
+                var SegundoResultado = XOR_4 + Segundo4_2;
+                var PermutacionInversa = RealizarPermutaciones(SegundoResultado, Permutaciones.InversaIP_);
+
+                return Convert.ToByte(Convert.ToInt32(PermutacionInversa, 2));
+                 
+            }
+            return default;
+
+        }
+ 
     }
 }

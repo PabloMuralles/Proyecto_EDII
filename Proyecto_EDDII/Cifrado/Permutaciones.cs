@@ -148,6 +148,7 @@ namespace Proyecto_EDDII.Cifrado
             }
         }
 
+        
         public bool VerificarTodasPermutaciones()
         {
             var Resultado = VerificacionPermutacion4() && VerificarPermutacion10() && VerificarPermutacion8() && VerificarPermutacion() &&
