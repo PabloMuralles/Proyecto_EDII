@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
+using Microsoft.AspNetCore.Http;
+using System.Text;
 
 namespace Proyecto_EDDII.Compresion
 {
@@ -10,26 +13,13 @@ namespace Proyecto_EDDII.Compresion
 
         string Nombre = string.Empty;
 
-        IFormFile fileHistorial = null;
+ 
 
-        public AlgoritmoDescompresion(IFormFile Archivo, string nombre)
+        public Descompresion(IFormFile Archivo, string nombre)
         {
             Nombre = nombre;
-            fileHistorial = Archivo;
             Lectura(Archivo);
-
-
-
-            DatosArchivoDescomprido dartos = new DatosArchivoDescomprido();
-
-            dartos.TamañoComprimido = Convert.ToInt32(fileHistorial.Length);
-            dartos.NombreOrignalComprido = fileHistorial.FileName;
-            dartos.Ruta = Path.Combine(Environment.CurrentDirectory, "decompressLZW", $"{Nombre}.txt");
-
-            HistorialCompresion.Instance.ArchivosDescomprimidosPils.Add(dartos);
-
-
-
+             
         }
 
 
