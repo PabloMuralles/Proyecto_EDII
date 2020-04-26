@@ -20,12 +20,12 @@ namespace Proyecto_EDDII.Cifrado
         /// <summary>
         /// Propiedades para que se pueda acesar a las permutaciones desde otras clases pero solo con el get para que no pudan cambiarlas
         /// </summary>
-        public string P10_ { get;}
-        public string P8_ { get;}
-        public string P4_ { get;}
-        public string EP_ { get;}
-        public string IP_ { get;}
-        public string InversaIP_ { get;}
+        public string P10_ { get => P10;}
+        public string P8_ { get => P8; }
+        public string P4_ { get => P4; }
+        public string EP_ { get => EP; }
+        public string IP_ { get => IP; }
+        public string InversaIP_ { get => InversaIP; }
 
         /// <summary>
         /// Constructor de la clase donde se inicializan las permutaciones y se calcula la permutacion inversa
