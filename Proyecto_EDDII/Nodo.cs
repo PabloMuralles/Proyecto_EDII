@@ -8,6 +8,7 @@ namespace Proyecto_EDDII
     public class Nodo
     {
         public int ID {get;set;}
+
         public int padre { get; set; }
         
         public Nodo[] hijos { get; set; }
