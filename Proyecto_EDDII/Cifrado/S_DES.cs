@@ -250,36 +250,7 @@ namespace Proyecto_EDDII.Cifrado
             }
             return default;
         }
-
-        /// <summary>
-        /// Metodo para poder pasar un strign a un arreglo de bytes 
-        /// </summary>
-        /// <param name="Texto">El string que se desee pasar a bytes</param>
-        /// <returns>Arreglo de bytes del texto</returns>
-        public byte[] ConvertirTexto(string Texto)
-        {
-            var TextoBytes = new List<byte>();
-            foreach (var Caracter in Texto)
-            {
-                TextoBytes.Add(Convert.ToByte(Convert.ToChar(Caracter)));
-
-            }
-
-            return TextoBytes.ToArray();
-
-        }
-
-
-
-
-
-
-
-
-
-
-
-
+         
 
     }
 }

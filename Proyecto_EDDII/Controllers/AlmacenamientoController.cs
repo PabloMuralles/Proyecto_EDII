@@ -17,10 +17,14 @@ namespace Proyecto_EDDII.Controllers
         {
             if (ModelState.IsValid)
             {
-                //byte[] Name = Encoding.ASCII.GetBytes(Datos_sucural.Nombre);
-               // var Name = Convert.ToByte(Datos_sucural.Nombre);
-                byte[] Adress = Encoding.ASCII.GetBytes(Datos_sucural.direccion);
-               //  Cifrado.S_DES.Instance.Cifrar(,Convert.ToInt32(Key));
+                var Contraseña = Configuracion.Configuracion.Instance.Contaseña;
+
+                var NombreBytes = Encoding.ASCII.GetBytes(Datos_sucural.Nombre);
+
+                var DireccionBytes= Encoding.ASCII.GetBytes(Datos_sucural.direccion);
+
+
+
                 Estructuras.Bestrella_Sucursal_.Instance.Insertar(Datos_sucural.ID, Datos_sucural.Nombre, Datos_sucural.direccion);
             }
             return BadRequest(ModelState);
