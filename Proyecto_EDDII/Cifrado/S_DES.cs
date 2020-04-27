@@ -53,14 +53,14 @@ namespace Proyecto_EDDII.Cifrado
                 { "01" , "00" , "11" , "10"},
                 { "11" , "10" , "01" , "00"},
                 { "00" , "10" , "01" , "11"},
-                { "11" , "01" , "11" , "10"}      
+                { "11" , "01" , "11" , "10"}
             };
             var S1 = new string[4, 4]
             {
                 { "01" , "01" , "10" , "11"},
                 { "10" , "00" , "01" , "11"},
                 { "11" , "00" , "01" , "00"},
-                { "10" , "01" , "00" , "11"}     
+                { "10" , "01" , "00" , "11"}
             };
 
             var Primeros4 = Cadena.Substring(0, 4);
@@ -69,11 +69,11 @@ namespace Proyecto_EDDII.Cifrado
             var Resultado = string.Empty;
 
             var FilaS0 = Convert.ToInt32((Primeros4[0].ToString() + Primeros4[3].ToString()), 2);
-            var ColumnasS0 = Convert.ToInt32((Primeros4[0].ToString() + Primeros4[2].ToString()), 2);
+            var ColumnasS0 = Convert.ToInt32((Primeros4[1].ToString() + Primeros4[2].ToString()), 2);
             Resultado += S0[FilaS0, ColumnasS0];
 
-            var FilaS1 = Convert.ToInt32((Primeros4[0].ToString() + Primeros4[3].ToString()), 2);
-            var ColumnasS1 = Convert.ToInt32((Primeros4[0].ToString() + Primeros4[2].ToString()), 2);
+            var FilaS1 = Convert.ToInt32((Segundos4[0].ToString() + Segundos4[3].ToString()), 2);
+            var ColumnasS1 = Convert.ToInt32((Segundos4[0].ToString() + Segundos4[2].ToString()), 2);
             Resultado += S1[FilaS1, ColumnasS1];
 
             return Resultado;
@@ -94,10 +94,12 @@ namespace Proyecto_EDDII.Cifrado
 
             var Resultado = string.Empty;
 
+
+
             Resultado = (Primeros5.Substring(1, 4) + Primeros5.Substring(0, 1)) + (Segundos5.Substring(1, 4) + Segundos5.Substring(0, 1));
 
             return Resultado;
-             
+
         }
 
         /// <summary>
@@ -107,23 +109,26 @@ namespace Proyecto_EDDII.Cifrado
         /// <param name="P8">La permutacion 8 que se usara para poder hacer los calculos </param>
         /// <param name="P10">La permutacion 10 que se utilizara para poder hacer los calculo</param>
         /// <returns>Retorna la llave 1 y  2 para poder hacer el cifrado y descifrado</returns>
-        private (string Llave1 , string Llave2) GeneradorLlaves(string LlaveUsuario, string P8, string P10)
+        private (string Llave1, string Llave2) GeneradorLlaves(string LlaveUsuario, string P8, string P10)
         {
 
             var Permutacion10 = RealizarPermutaciones(LlaveUsuario, P10);
-             
+
             var LS1 = LS_1(Permutacion10);
 
             var Permutacion8 = RealizarPermutaciones(LS1, P8);
-  
+
             var Llave1 = Permutacion8;
+
+            var prueva1 = (LS_1(Permutacion10));
+            var prueva2 = LS_1(prueva1);
 
             var LS2 = LS_1(LS_1(Permutacion10));
 
             var Llave2 = RealizarPermutaciones(LS2, P8);
- 
+
             return (Llave1, Llave2);
-             
+
         }
 
         /// <summary>
@@ -132,7 +137,7 @@ namespace Proyecto_EDDII.Cifrado
         /// <param name="RealizarPermutacion">La cadena de bits a la que se le quiere realizar una permutacion</param>
         /// <param name="Permutacion">La permutacion que se quiere realizar</param>
         /// <returns>La cadena de bits permutada</returns>
-        private string RealizarPermutaciones(string RealizarPermutacion , string Permutacion)
+        private string RealizarPermutaciones(string RealizarPermutacion, string Permutacion)
         {
             /// variable para poder poner el resultado de la permutacion
             var ResultadoPermutacion = string.Empty;
@@ -142,7 +147,8 @@ namespace Proyecto_EDDII.Cifrado
 
             foreach (var TomarCaracteres in Permutacion)
             {
-                ResultadoPermutacion += RealizarPermutacion[Convert.ToInt32(TomarCaracteres)];
+
+                ResultadoPermutacion += RealizarPermutacion[int.Parse(TomarCaracteres.ToString())];
             }
 
             return ResultadoPermutacion;
@@ -163,8 +169,8 @@ namespace Proyecto_EDDII.Cifrado
                 /// se convierte la llave de int a string 
                 var LLaveUsuarioBinario = Convert.ToString(LlaveUsuario_, 2).PadLeft(10, '0');
                 /// Primer Blocke
-                (string Llave1, string Llave2) = GeneradorLlaves(LLaveUsuarioBinario, Permutaciones.P10_, Permutaciones.P8_);
-                var ByteBinario = Convert.ToString(ByteCifrar, 2).PadLeft(8, '0');  
+                (string Llave1, string Llave2) = GeneradorLlaves(LLaveUsuarioBinario, Permutaciones.P8_, Permutaciones.P10_);
+                var ByteBinario = Convert.ToString(ByteCifrar, 2).PadLeft(8, '0');
                 var PermutacionInicial = RealizarPermutaciones(ByteBinario, Permutaciones.IP_);
                 var Primeros4 = PermutacionInicial.Substring(0, 4);
                 var Segundos4 = PermutacionInicial.Substring(4, 4);
@@ -191,7 +197,7 @@ namespace Proyecto_EDDII.Cifrado
                 var PermutacionInversa = RealizarPermutaciones(SegundoResultado, Permutaciones.InversaIP_);
 
                 return Convert.ToByte(Convert.ToInt32(PermutacionInversa, 2));
-                 
+
             }
             return default;
 
@@ -212,7 +218,7 @@ namespace Proyecto_EDDII.Cifrado
                 /// se convierte la llave de int a string 
                 var LLaveUsuarioBinario = Convert.ToString(LlaveUsuario_, 2).PadLeft(10, '0');
                 /// Primer Blocke
-                (string Llave1, string Llave2) = GeneradorLlaves(LLaveUsuarioBinario, Permutaciones.P10_, Permutaciones.P8_);
+                (string Llave1, string Llave2) = GeneradorLlaves(LLaveUsuarioBinario, Permutaciones.P8_, Permutaciones.P10_);
                 var ByteBinario = Convert.ToString(ByteCifrado, 2).PadLeft(8, '0');
                 var PermutacionInicial = RealizarPermutaciones(ByteBinario, Permutaciones.IP_);
                 var Primeros4 = PermutacionInicial.Substring(0, 4);
@@ -262,6 +268,18 @@ namespace Proyecto_EDDII.Cifrado
             return TextoBytes.ToArray();
 
         }
- 
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }
