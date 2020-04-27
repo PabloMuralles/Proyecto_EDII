@@ -20,8 +20,5 @@ namespace Proyecto_EDDII.Controllers
             }
             return BadRequest(ModelState);
         }
-        [HttpPost]
-        [Route("Produto/{nombre}")]
-        public ActionResult 
     }
 }
