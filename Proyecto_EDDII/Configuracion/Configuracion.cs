@@ -28,7 +28,7 @@ namespace Proyecto_EDDII.Configuracion
 
             var ContraseñaString = string.Empty;
 
-            using (var Archivo = new FileStream(Path.Combine(Ruta, "Contraseña", "cotraseña.txt"), FileMode.Open))
+            using (var Archivo = new FileStream(Path.Combine(Ruta, "Contraseña", "contraseña.txt"), FileMode.Open))
             {
                 using (var Lectura = new BinaryReader(Archivo))
                 {

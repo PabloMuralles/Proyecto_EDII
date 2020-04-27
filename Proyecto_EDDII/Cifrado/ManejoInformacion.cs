@@ -27,12 +27,13 @@ namespace Proyecto_EDDII.Cifrado
 
         public string CifrarCadena(string Cadena, int Contraseña)
         {
-            var CadenaBytes = Encoding.ASCII.GetBytes(Cadena);
+            
 
             var CadenaCifrada = string.Empty;
 
-            foreach (var ByteCifrar in CadenaBytes)
+            foreach (var CaracterCifrar in Cadena)
             {
+                var ByteCifrar = Convert.ToByte(Convert.ToChar(CaracterCifrar));
                 var ByteCifrado = S_DES.Instance.Cifrar(ByteCifrar, Contraseña);
                 CadenaCifrada += Convert.ToString(Convert.ToChar(ByteCifrado));
                  
@@ -50,13 +51,14 @@ namespace Proyecto_EDDII.Cifrado
         /// <returns>La cadena descifrada</returns>
         public string DescifrarCadena(string Cadena, int Contraseña)
         {
-            var CadenaBytes = Encoding.ASCII.GetBytes(Cadena);
+             
 
             var CadenaDescifrada = string.Empty;
 
-            foreach (var ByteCifrar in CadenaBytes)
+            foreach (var Caracter in Cadena)
             {
-                var ByteCifrado = S_DES.Instance.Cifrar(ByteCifrar, Contraseña);
+                var ByteDescifrar = Convert.ToByte(Convert.ToChar(Caracter));
+                var ByteCifrado = S_DES.Instance.Descifrar(ByteDescifrar, Contraseña);
                 CadenaDescifrada += Convert.ToString(Convert.ToChar(ByteCifrado));
 
             }
