@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Proyecto_EDDII.Controllers
 {
-    
+
     public class AlmacenamientoController : ControllerBase
     {
         [HttpPost]
@@ -16,9 +16,12 @@ namespace Proyecto_EDDII.Controllers
         {
             if (ModelState.IsValid)
             {
-                Estructuras.Bestrella_Sucursal_.Instance.Insertar(Datos_sucural.ID,Datos_sucural.Nombre,Datos_sucural.direccion);
+                Estructuras.Bestrella_Sucursal_.Instance.Insertar(Datos_sucural.ID, Datos_sucural.Nombre, Datos_sucural.direccion);
             }
             return BadRequest(ModelState);
         }
+        [HttpPost]
+        [Route("Produto/{nombre}")]
+        public ActionResult 
     }
 }
