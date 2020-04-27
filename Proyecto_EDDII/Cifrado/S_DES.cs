@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 namespace Proyecto_EDDII.Cifrado
 {
     public class S_DES
-    { 
+    {
+        private static S_DES _instance = null;
+        public static S_DES Instance
+        {
+            get
+            {
+                if (_instance == null) _instance = new S_DES();
+                return _instance;
+            }
+        }
         /// <summary>
         /// Me todo para poder calcular la operacion XOR 
         /// </summary>
