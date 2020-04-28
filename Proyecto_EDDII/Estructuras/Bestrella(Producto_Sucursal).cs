@@ -23,7 +23,7 @@ namespace Proyecto_EDDII.Estructuras
         int identificador = 1;
         public int Inserciones = 0;
         static int valor = ((4 * (grado - 1)) / 3);
-        List<Nodo_S_P> Arbollista = new List<Nodo_S_P>();
+        List<Nodo_S_P> Arbollista = new List<Nodo_S_P>();       
         public void Insertar(int ID_S,int ID_P,int Cantidad)
         {
             Inserciones++;
@@ -82,7 +82,7 @@ namespace Proyecto_EDDII.Estructuras
                         if (num == valor) /// full
                         {
                             // crear un auxiliar
-                            Sucursal[] Auxiliar_ = Auxiliar(ID_S, ID_P, Cantidad, raiz.values);
+                            Precio_Sucursal[] Auxiliar_ = Auxiliar(ID_S, ID_P, Cantidad, raiz.values);
                             // dividir el auxiliar
                             int intermedio = Auxiliar_.Length / 2;
                             //Izquierda hasta la mitad
@@ -108,7 +108,7 @@ namespace Proyecto_EDDII.Estructuras
             // limpiar la lista para que no se repita
             Arbollista.Clear();
         }
-        public Sucursal[] Auxiliar( int ID_S, int ID_P, int Cantida, Precio_Sucursal[] datos)
+        public Precio_Sucursal[] Auxiliar( int ID_S, int ID_P, int Cantida, Precio_Sucursal[] datos)
         {
             Precio_Sucursal[] Aux = new Precio_Sucursal[(valor) + 1];
             int entrada = 0;
@@ -136,9 +136,10 @@ namespace Proyecto_EDDII.Estructuras
                 {
                     raiz.hijos[0].values[num] = new Precio_Sucursal()
                     {
-                        ID = ID,
-                        Nombre = Name,
-                        direccion = Adress
+                        identificador = ID_S + ID_P,
+                        ID_S = ID_S,
+                        ID_P = ID_P,
+                        cantidad = Cantida
                     };
                     raiz.hijos[identificador - 4].values = Ordenar(raiz.hijos[identificador - 4].values);
                     /// Ingresar nueva lista
@@ -162,11 +163,11 @@ namespace Proyecto_EDDII.Estructuras
                                 contador++;
                             }
                             // bajar dato a hijo derecho
-                            Insertar_derecha(raiz.values[contador - 1].ID, raiz.values[contador - 1].Nombre, raiz.values[contador - 1].direccion);
+                            Insertar_derecha(raiz.values[contador - 1].ID_S, raiz.values[contador - 1].ID_P,raiz.values[contador - 1].cantidad);
                             //borrar la ultima posicion de la raiz
                             Array.Clear(raiz.values, contador - 1, contador - 1);
                             //colocar nueva raiz
-                            raiz.values[contador - 1] = new Sucursal() { ID = ID, Nombre = Name, direccion = Adress };
+                            raiz.values[contador - 1] = new Precio_Sucursal() {identificador = ID_S + ID_P, ID_S = ID_S, ID_P = ID_P, cantidad = Cantida };
                             break;
                         }
                     }
@@ -182,9 +183,10 @@ namespace Proyecto_EDDII.Estructuras
                 {
                     raiz.hijos[identificador - 3].values[num] = new Precio_Sucursal()
                     {
-                        ID = ID,
-                        Nombre = Name,
-                        direccion = Adress
+                        identificador = ID_S + ID_P,
+                        ID_S = ID_S,
+                        ID_P = ID_P,
+                        cantidad = Cantida
                     };
                     raiz.hijos[identificador - 3].values = Ordenar(raiz.hijos[identificador - 3].values);
                     /// Ingresar nueva lista
@@ -210,24 +212,24 @@ namespace Proyecto_EDDII.Estructuras
                                     contador++;
                                 }
                                 // bajar dato a hijo derecho
-                                Insertar_derecha(raiz.values[contador - 1].ID, raiz.values[contador - 1].Nombre, raiz.values[contador - 1].direccion);
+                                Insertar_derecha(raiz.values[contador - 1].ID_S, raiz.values[contador - 1].ID_P, raiz.values[contador - 1].cantidad);
                                 //borrar la ultima posicion de la raiz
                                 Array.Clear(raiz.values, contador - 1, contador - 1);
                                 //colocar nueva raiz
-                                raiz.values[contador - 1] = new Sucursal() { ID = ID, Nombre = Name, direccion = Adress };
+                                raiz.values[contador - 1] = new Precio_Sucursal() { identificador = ID_S + ID_P, ID_S = ID_S, ID_P = ID_P, cantidad = Cantida };
                                 break;
                             }
                         }
                     }
                     else
                     {
-                        Nodo der = new Nodo(grado, entrar);
+                        Nodo_S_P der = new Nodo_S_P(grado, entrar);
                         der.ID = identificador;
                         der.padre = raiz.ID;
                         raiz.hijos[identificador - 2] = der;
                         identificador++;
                         //Crear un auxiliar
-                        Sucursal[] Aux_ = Auxiliar(ID, Name, Adress, raiz.hijos[identificador - 4].values);
+                        Precio_Sucursal[] Aux_ = Auxiliar(ID_S, ID_P, Cantida, raiz.hijos[identificador - 4].values);
                         //borar derecha
                         Array.Clear(raiz.hijos[identificador - 3].values, 0, grado - 1);
                         // subir penultima posicion 
@@ -253,10 +255,10 @@ namespace Proyecto_EDDII.Estructuras
                 }
             }
         }
-        public Nodo Izquierda(Precio_Sucursal[] Aux, int intermedio, int ID_padre)
+        public Nodo_S_P Izquierda(Precio_Sucursal[] Aux, int intermedio, int ID_padre)
         {
             //Izquierda
-            Nodo izq = new Nodo(grado, entrar);
+            Nodo_S_P izq = new Nodo_S_P(grado, entrar);
             izq.ID = identificador;
             izq.padre = ID_padre;
             identificador++;
@@ -266,10 +268,10 @@ namespace Proyecto_EDDII.Estructuras
             }
             return izq;
         }
-        public Nodo Derecha(Precio_Sucursal[] Aux, int intermedio, int ID_padre)
+        public Nodo_S_P Derecha(Precio_Sucursal[] Aux, int intermedio, int ID_padre)
         {
             //derecha
-            Nodo der = new Nodo(grado, entrar);
+            Nodo_S_P der = new Nodo_S_P(grado, entrar);
             der.ID = identificador;
             der.padre = ID_padre;
             identificador++;
@@ -281,9 +283,9 @@ namespace Proyecto_EDDII.Estructuras
             }
             return der;
         }
-        public Sucursal[] Ordenar(Sucursal[] valores)
+        public Precio_Sucursal[] Ordenar(Precio_Sucursal[] valores)
         {
-            var lista = new List<Sucursal>();
+            var lista = new List<Precio_Sucursal>();
             foreach (var iteraciones in valores)
             {
                 if (iteraciones != null)
@@ -291,7 +293,7 @@ namespace Proyecto_EDDII.Estructuras
                     lista.Add(iteraciones);
                 }
             }
-            lista = lista.OrderBy(x => x.ID).ToList();
+            lista = lista.OrderBy(x => x.identificador).ToList();
             var contador = 0;
             foreach (var item in lista)
             {
@@ -368,9 +370,10 @@ namespace Proyecto_EDDII.Estructuras
                             {
                                 break;
                             }
-                            write.Write(valores.ID + "|");
-                            write.Write(valores.Nombre + "|");
-                            write.Write(valores.direccion + "|");
+                            write.Write(valores.identificador + "|");
+                            write.Write(valores.ID_P + "|");
+                            write.Write(valores.ID_S + "|");
+                            write.Write(valores.cantidad + "|");
                         }
                         write.Write("\n");
                     }

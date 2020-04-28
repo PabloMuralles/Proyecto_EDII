@@ -24,6 +24,19 @@ namespace Proyecto_EDDII.Estructuras
         public int Inserciones = 0;
         static int valor = ((4 * (grado - 1)) / 3);
         List<Nodo_P> Arbollista = new List<Nodo_P>();
+        public Queue<string[]> Lectura(string leer)
+        {
+            Queue<string[]> pila_lectura = new Queue<string[]>();
+            var path = leer;
+            var archivo = new StreamReader(path);
+            var linea = archivo.ReadLine();
+            while (linea != null)
+            {
+                pila_lectura.Enqueue(linea.Split(','));
+                linea = archivo.ReadLine();
+            }
+            return pila_lectura;
+        }
         public void Insertar(int ID, string Name, decimal price)
         {
             Inserciones++;
