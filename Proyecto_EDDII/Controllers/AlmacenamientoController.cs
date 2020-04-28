@@ -18,10 +18,15 @@ namespace Proyecto_EDDII.Controllers
             if (ModelState.IsValid)
             {
                 //byte[] Name = Encoding.ASCII.GetBytes(Datos_sucural.Nombre);
-               // var Name = Convert.ToByte(Datos_sucural.Nombre);
-                byte[] Adress = Encoding.ASCII.GetBytes(Datos_sucural.direccion);
-               //  Cifrado.S_DES.Instance.Cifrar(,Convert.ToInt32(Key));
-                Estructuras.Bestrella_Sucursal_.Instance.Insertar(Datos_sucural.ID, Datos_sucural.Nombre, Datos_sucural.direccion);
+                // var Name = Convert.ToByte(Datos_sucural.Nombre);
+               // byte[] Adress = Encoding.ASCII.GetBytes(Datos_sucural.direccion);
+                //var Name = Cifrado.S_DES.Instance.ConvertirTexto(Datos_sucural.Nombre);
+                //byte Name_CIPHER = 0;
+                //for (int i = 0; i < Name.Length; i++)
+                //{
+                // Name_CIPHER += Cifrado.S_DES.Instance.Cifrar(Name[i], Convert.ToInt32(Key));                   
+                //}
+                 Estructuras.Bestrella_Sucursal_.Instance.Insertar(Datos_sucural.ID, Datos_sucural.Nombre, Datos_sucural.direccion);
             }
             return BadRequest(ModelState);
         }
