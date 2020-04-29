@@ -17,15 +17,7 @@ namespace Proyecto_EDDII.Controllers
         {
             if (ModelState.IsValid)
             {
-                //byte[] Name = Encoding.ASCII.GetBytes(Datos_sucural.Nombre);
-                // var Name = Convert.ToByte(Datos_sucural.Nombre);
-                // byte[] Adress = Encoding.ASCII.GetBytes(Datos_sucural.direccion);
-                //var Name = Cifrado.S_DES.Instance.ConvertirTexto(Datos_sucural.Nombre);
-                //byte Name_CIPHER = 0;
-                //for (int i = 0; i < Name.Length; i++)
-                //{
-                // Name_CIPHER += Cifrado.S_DES.Instance.Cifrar(Name[i], Convert.ToInt32(Key));                   
-                //}
+                //Cifrar nombre y precio
                 Estructuras.Bestrella_Sucursal_.Instance.Insertar(Datos_sucural.ID, Datos_sucural.Nombre, Datos_sucural.direccion);
             }
             return BadRequest(ModelState);
@@ -37,20 +29,9 @@ namespace Proyecto_EDDII.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (path != null)
-                {
-                    Queue<string[]> pila_lectura = Estructuras.Bestrella_Produto_.Instance.Lectura(path);
-                    // cifrar el nombre y precio
-                    while (pila_lectura.Peek() != null)
-                    {
-                     Estructuras.Bestrella_Produto_.Instance.Insertar(Convert.ToInt32(pila_lectura.Peek()[0]),pila_lectura.Peek()[1],Convert.ToDecimal(pila_lectura.Peek()[2]));
-                        pila_lectura.Dequeue();
-                    }
-                }
-                else
-                {
-                    Estructuras.Bestrella_Produto_.Instance.Insertar(Datos_Producto.ID,Datos_Producto.Nombre,Datos_Producto.Precio);
-                }
+             //cifrar Nombre y precio
+             Estructuras.Bestrella_Produto_.Instance.Insertar(Datos_Producto.ID,Datos_Producto.Nombre,Datos_Producto.Precio);
+                
             }
             return BadRequest(ModelState);
         }
@@ -71,6 +52,18 @@ namespace Proyecto_EDDII.Controllers
                         pila_lectura.Dequeue();
                     }                  
                 }    
+            }
+            return BadRequest(ModelState);
+        }
+        [HttpPost]
+        [Route("Sucursal-Producto")]
+        public ActionResult Info_SP([FromBody] Producto Datos_Producto, string path)
+        {
+            if (ModelState.IsValid)
+            {
+                //cifrar Nombre y precio
+               // Estructuras.Bestrella_Producto_Sucursal_.Instance.Insertar(Datos_Producto.ID, Datos_Producto.Nombre, Datos_Producto.Precio);
+
             }
             return BadRequest(ModelState);
         }
