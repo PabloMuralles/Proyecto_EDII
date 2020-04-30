@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
+using Microsoft.AspNetCore.Http;
+using System.Text;
 
 namespace Proyecto_EDDII.Compresion
 {
@@ -11,17 +13,11 @@ namespace Proyecto_EDDII.Compresion
 
         Dictionary<string, int> DiccionarioTotal;
 
-        public AlgoritomoCompresion(string name, IFormFile file)
+        public Compresion(string name, IFormFile file)
         {
             Name = name;
             LecturaArchivo(file);
-            DatosArchivoCompresion datos = new DatosArchivoCompresion();
-            datos.NombreOriginal = file.FileName;
-            datos.BytesOriginal = Convert.ToInt32(file.Length);
-            datos.Ruta = Path.Combine(Environment.CurrentDirectory, "CompressLZW", $"{Name}.lzw");
-            datos.NombreNuevo = $"{Name}.lzw";
-            HistorialCompresion.Instance.ArchivosComprimidosPila.Add(datos);
-
+             
         }
 
         public void LecturaArchivo(IFormFile direction)
@@ -31,7 +27,7 @@ namespace Proyecto_EDDII.Compresion
                 var LonguitudArchivo = Convert.ToInt32(reader.BaseStream.Length);
                 byte[] buffer = new byte[LonguitudArchivo];
                 buffer = reader.ReadBytes(LonguitudArchivo);
-                Compresion(buffer);
+                CompresionArchivo(buffer);
 
 
             }
@@ -94,7 +90,7 @@ namespace Proyecto_EDDII.Compresion
 
         }
 
-        public void Compresion(byte[] archivo)
+        public void CompresionArchivo(byte[] archivo)
         {
             Dictionary<string, int> Diccionario_Inicial = DiccionarioInicial(archivo);
             int[] ComprimirArchivo = CompressFile(archivo, Diccionario_Inicial);
