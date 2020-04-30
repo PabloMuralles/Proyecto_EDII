@@ -28,9 +28,13 @@ namespace Proyecto_EDDII.Estructuras
         public List<int> Productos = new List<int>();
         public void Verificar(int ID_S, int ID_P, int Cantidad)
         {
-            if (Sucursale.Contains(ID_S))
+            if (Sucursale.Contains(ID_S)&& Productos.Contains(ID_P))
             {
-      
+                Insertar(ID_S,ID_P,Cantidad);
+            }
+            else
+            {
+               // Mostrar un Error porque no existe los ID
             }
         }
         public void Insertar(int ID_S,int ID_P,int Cantidad)
@@ -321,12 +325,12 @@ namespace Proyecto_EDDII.Estructuras
         public void Escribir()
         {
             string Identificar_ID = string.Empty;
-            string CarpetaMetadata_S = Environment.CurrentDirectory;
-            if (!Directory.Exists(Path.Combine(CarpetaMetadata_S, "Metadata_Sucursal")))
+            string CarpetaMetadata_PS = Environment.CurrentDirectory;
+            if (!Directory.Exists(Path.Combine(CarpetaMetadata_PS, "Metadata_SP")))
             {
-                Directory.CreateDirectory(Path.Combine(CarpetaMetadata_S, "Metadata_Sucursal"));
+                Directory.CreateDirectory(Path.Combine(CarpetaMetadata_PS, "Metadata_SP"));
             }
-            using (var writeStream = new FileStream(Path.Combine(CarpetaMetadata_S, "Metadata_Sucursal", "Sucursal.txt"), FileMode.OpenOrCreate))
+            using (var writeStream = new FileStream(Path.Combine(CarpetaMetadata_PS, "Metadata_SP", "Producto-Sucursal.txt"), FileMode.OpenOrCreate))
             {
                 using (var write = new StreamWriter(writeStream))
                 {
