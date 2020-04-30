@@ -23,7 +23,16 @@ namespace Proyecto_EDDII.Estructuras
         int identificador = 1;
         public int Inserciones = 0;
         static int valor = ((4 * (grado - 1)) / 3);
-        List<Nodo_S_P> Arbollista = new List<Nodo_S_P>();       
+        List<Nodo_S_P> Arbollista = new List<Nodo_S_P>();
+        public List<int> Sucursale = new List<int>();
+        public List<int> Productos = new List<int>();
+        public void Verificar(int ID_S, int ID_P, int Cantidad)
+        {
+            if (Sucursale.Contains(ID_S))
+            {
+      
+            }
+        }
         public void Insertar(int ID_S,int ID_P,int Cantidad)
         {
             Inserciones++;

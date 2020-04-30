@@ -37,8 +37,9 @@ namespace Proyecto_EDDII.Estructuras
             }
             return pila_lectura;
         }
-        public void Insertar(int ID, string Name, decimal price)
+        public void Insertar(int ID, string Name, string price)
         {
+            Estructuras.Bestrella_Producto_Sucursal_.Instance.Productos.Add(ID);
             Inserciones++;
             int num = 0;
             int validar_Hijo = 0;
@@ -118,7 +119,7 @@ namespace Proyecto_EDDII.Estructuras
             // limpiar la lista para que no se repita
             Arbollista.Clear();
         }
-        public Producto[] Auxiliar(int ID, string Name, decimal price, Producto[] datos)
+        public Producto[] Auxiliar(int ID, string Name, string price, Producto[] datos)
         {
             Producto[] Aux = new Producto[(valor) + 1];
             int entrada = 0;
@@ -136,7 +137,7 @@ namespace Proyecto_EDDII.Estructuras
             Aux = Ordenar(Aux);
             return Aux;
         }
-        public void Insertar_Izquierda(int ID, string Name, decimal price)
+        public void Insertar_Izquierda(int ID, string Name, string price)
         {
             int num = 0;
             foreach (var espacio in raiz.hijos[identificador - 4].values)
@@ -182,7 +183,7 @@ namespace Proyecto_EDDII.Estructuras
                 }
             }
         }
-        public void Insertar_derecha(int ID, string Name, decimal price)
+        public void Insertar_derecha(int ID, string Name, string price)
         {
             int num = 0;
             foreach (var espacio in raiz.hijos[identificador - 3].values)
@@ -371,6 +372,8 @@ namespace Proyecto_EDDII.Estructuras
                                 break;
                             }
                             write.Write(valores.ID + "|");
+                            write.Write(valores.Nombre + "|");
+                            write.Write(valores.Precio + "|");
                         }
                         write.Write("\n");
                     }
