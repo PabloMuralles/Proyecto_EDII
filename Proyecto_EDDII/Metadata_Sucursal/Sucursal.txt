@@ -1,4 +1,8 @@
 Grado 7
 Raiz 1
 Proxima posición Disponible: 2
+<<<<<<< HEAD
 1|0|0|0|0|0|0|0|0|10|Santiago|zona1|20|Daniel|zona2|30|Daniel|zona2|
+=======
+1|0|0|0|0|0|0|0|0|1|
+>>>>>>> configuracion

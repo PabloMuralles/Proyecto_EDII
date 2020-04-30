@@ -18,6 +18,7 @@ namespace Proyecto_EDDII
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            Configuracion.Configuracion.Instance.LecturaContraseña();
         }
 
         public IConfiguration Configuration { get; }
