@@ -8,28 +8,32 @@ using System.Text;
 namespace Proyecto_EDDII.Compresion
 {
     public class Compresion
-    {
-        string Name = string.Empty;
+    { 
 
         Dictionary<string, int> DiccionarioTotal;
 
-        public Compresion(string name, IFormFile file)
+    
+
+        public void EscogerArchivos(string arbol)
         {
-            Name = name;
-            LecturaArchivo(file);
-             
+            string PathSucursal = Path.Combine(Environment.CurrentDirectory, "Metadata_Sucursal", "Sucursal.txt");
+            string PathProducto = Path.Combine(Environment.CurrentDirectory, "Metadata_Sucursal", "Sucursal.txt");
         }
 
-        public void LecturaArchivo(IFormFile direction)
+        public void LecturaArchivo(string pathArchivo)
         {
-            using (var reader = new BinaryReader(direction.OpenReadStream()))
+            using (var Archivo = new FileStream(pathArchivo,FileMode.Open))
             {
-                var LonguitudArchivo = Convert.ToInt32(reader.BaseStream.Length);
-                byte[] buffer = new byte[LonguitudArchivo];
-                buffer = reader.ReadBytes(LonguitudArchivo);
-                CompresionArchivo(buffer);
+
+                using (var reader = new BinaryReader( Archivo))
+                {
+                    var LonguitudArchivo = Convert.ToInt32(reader.BaseStream.Length);
+                    byte[] buffer = new byte[LonguitudArchivo];
+                    buffer = reader.ReadBytes(LonguitudArchivo);
+                    CompresionArchivo(buffer);
 
 
+                }
             }
 
         }
@@ -104,12 +108,12 @@ namespace Proyecto_EDDII.Compresion
 
             string CarpetaCompress = Environment.CurrentDirectory;
 
-            if (!Directory.Exists(Path.Combine(CarpetaCompress, "CompressLZW")))
+            if (!Directory.Exists(Path.Combine(CarpetaCompress, "CompressData")))
             {
-                Directory.CreateDirectory(Path.Combine(CarpetaCompress, "CompressLZW"));
+                Directory.CreateDirectory(Path.Combine(CarpetaCompress, "CompressData"));
             }
 
-            using (var streamWriter = new FileStream(Path.Combine(CarpetaCompress, "CompressLZW", $"{Name}.lzw"), FileMode.OpenOrCreate))
+            using (var streamWriter = new FileStream(Path.Combine(CarpetaCompress, "CompressData", $"{Name}.lzw"), FileMode.OpenOrCreate))
             {
                 using (var write = new BinaryWriter(streamWriter))
                 {

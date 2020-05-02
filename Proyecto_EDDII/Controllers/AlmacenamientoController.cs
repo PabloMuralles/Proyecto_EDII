@@ -74,5 +74,17 @@ namespace Proyecto_EDDII.Controllers
             }
             return BadRequest(ModelState);
         }
+
+        [HttpPost]
+        [Route("Compresion")]
+        public ActionResult Compresion([FromBody] Producto Datos_Producto, string path)
+        {
+            
+
+
+        }
+
+
+
     }
 }
