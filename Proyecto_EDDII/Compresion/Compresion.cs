@@ -17,11 +17,28 @@ namespace Proyecto_EDDII.Compresion
         public void EscogerArchivos(string arbol)
         {
             string PathSucursal = Path.Combine(Environment.CurrentDirectory, "Metadata_Sucursal", "Sucursal.txt");
-            string PathProducto = Path.Combine(Environment.CurrentDirectory, "Metadata_Sucursal", "Sucursal.txt");
+            string PathProducto = Path.Combine(Environment.CurrentDirectory, "Metadata_Producto", "Producto.txt");
+            string PathSucursal_Producto = Path.Combine(Environment.CurrentDirectory, "Metadata_SP", "Producto-Sucursal.txt");
+
+            switch (arbol)
+            {
+                case "sucursal":
+                    LecturaArchivo(PathSucursal);
+                    break;
+                case "producto":
+                    LecturaArchivo(PathProducto);
+                    break;
+                case "sucursal-producto":
+                    LecturaArchivo(PathSucursal_Producto);
+                    break;
+                    
+                   
+            }
         }
 
         public void LecturaArchivo(string pathArchivo)
         {
+            
             using (var Archivo = new FileStream(pathArchivo,FileMode.Open))
             {
 
@@ -30,7 +47,7 @@ namespace Proyecto_EDDII.Compresion
                     var LonguitudArchivo = Convert.ToInt32(reader.BaseStream.Length);
                     byte[] buffer = new byte[LonguitudArchivo];
                     buffer = reader.ReadBytes(LonguitudArchivo);
-                    CompresionArchivo(buffer);
+                    CompresionArchivo(buffer, Archivo.Name);
 
 
                 }
@@ -94,15 +111,15 @@ namespace Proyecto_EDDII.Compresion
 
         }
 
-        public void CompresionArchivo(byte[] archivo)
+        public void CompresionArchivo(byte[] archivo, string Nombre)
         {
             Dictionary<string, int> Diccionario_Inicial = DiccionarioInicial(archivo);
             int[] ComprimirArchivo = CompressFile(archivo, Diccionario_Inicial);
-            Escritur(ComprimirArchivo, Diccionario_Inicial);
+            Escritura(ComprimirArchivo, Diccionario_Inicial,Nombre);
         }
 
 
-        public void Escritur(int[] Compresion, Dictionary<string, int> diccionario)
+        public void Escritura(int[] Compresion, Dictionary<string, int> diccionario, string Name)
         {
 
 
@@ -113,7 +130,7 @@ namespace Proyecto_EDDII.Compresion
                 Directory.CreateDirectory(Path.Combine(CarpetaCompress, "CompressData"));
             }
 
-            using (var streamWriter = new FileStream(Path.Combine(CarpetaCompress, "CompressData", $"{Name}.lzw"), FileMode.OpenOrCreate))
+            using (var streamWriter = new FileStream(Path.Combine(CarpetaCompress, "CompressData", $"{Name}.txt"), FileMode.OpenOrCreate))
             {
                 using (var write = new BinaryWriter(streamWriter))
                 {
