@@ -81,7 +81,7 @@ namespace Proyecto_EDDII.Controllers
 
         [HttpPost]
         [Route("compresion/{arbol}")]
-        /// En la ruta debe de ingresar sucursal, producto o sucursal-producto
+        /// En la ruta debe de ingresar sucursal, producto, sucursal-producto o todos para comprimir todos
         public ActionResult CompresionData(string arbol)
         {
             if (ModelState.IsValid)

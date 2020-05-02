@@ -26,13 +26,17 @@ namespace Proyecto_EDDII.Compresion
                     LecturaArchivo(PathSucursal);
                     break;
                 case "producto":
-                    LecturaArchivo(PathProducto);
+                    LecturaArchivo(PathSucursal);
                     break;
                 case "sucursal-producto":
                     LecturaArchivo(PathSucursal_Producto);
                     break;
+                case "todos":
+                    LecturaArchivo(PathSucursal);
+                    LecturaArchivo(PathSucursal);
+                    LecturaArchivo(PathSucursal_Producto);
+                    break;
                     
-                   
             }
         }
 
