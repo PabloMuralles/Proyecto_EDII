@@ -36,8 +36,13 @@ namespace Proyecto_EDDII.Controllers
         {
             if (ModelState.IsValid)
             {
-             //cifrar Nombre y precio
-             Estructuras.Bestrella_Produto_.Instance.Insertar(Datos_Producto.ID,Datos_Producto.Nombre,Datos_Producto.Precio);
+                //cifrar Nombre y precio
+                var Contraseña = Configuracion.Configuracion.Instance.Contaseña;
+
+                var NombreCifrado = Cifrado.ManejoInformacion.Instance.CifrarCadena(Datos_Producto.Nombre, Contraseña);
+
+                var PrecioCifrado = Cifrado.ManejoInformacion.Instance.CifrarCadena(Convert.ToString(Datos_Producto.Precio), Contraseña);
+                Estructuras.Bestrella_Produto_.Instance.Insertar(Datos_Producto.ID,NombreCifrado, PrecioCifrado);
                 
             }
             return BadRequest(ModelState);
@@ -53,9 +58,13 @@ namespace Proyecto_EDDII.Controllers
                 {
                     Queue<string[]> pila_lectura = Estructuras.Bestrella_Produto_.Instance.Lectura(path);
                     // cifrar el nombre y precio
-                    while (pila_lectura.Count() == 0)
+                    var Contraseña = Configuracion.Configuracion.Instance.Contaseña;
+                 
+                    while (pila_lectura.Count() != 0)
                     {
-                        Estructuras.Bestrella_Produto_.Instance.Insertar(Convert.ToInt32(pila_lectura.Peek()[0]), pila_lectura.Peek()[1], Convert.ToDecimal(pila_lectura.Peek()[2]));
+                        var NombreCifrado = Cifrado.ManejoInformacion.Instance.CifrarCadena(pila_lectura.Peek()[1], Contraseña);
+                        var PrecioCifrado = Cifrado.ManejoInformacion.Instance.CifrarCadena(pila_lectura.Peek()[2], Contraseña);
+                        Estructuras.Bestrella_Produto_.Instance.Insertar(Convert.ToInt32(pila_lectura.Peek()[0]), NombreCifrado, PrecioCifrado);
                         pila_lectura.Dequeue();
                     }                  
                 }    
@@ -64,13 +73,11 @@ namespace Proyecto_EDDII.Controllers
         }
         [HttpPost]
         [Route("Sucursal-Producto")]
-        public ActionResult Info_SP([FromBody] Producto Datos_Producto, string path)
+        public ActionResult Info_SP([FromBody] Precio_Sucursal Datos_SP)
         {
             if (ModelState.IsValid)
             {
-                //cifrar Nombre y precio
-               // Estructuras.Bestrella_Producto_Sucursal_.Instance.Insertar(Datos_Producto.ID, Datos_Producto.Nombre, Datos_Producto.Precio);
-
+                Estructuras.Bestrella_Producto_Sucursal_.Instance.Verificar(Datos_SP.ID_S,Datos_SP.ID_P,Datos_SP.cantidad);           
             }
             return BadRequest(ModelState);
         }

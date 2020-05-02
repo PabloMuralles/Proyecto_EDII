@@ -26,6 +26,7 @@ namespace Proyecto_EDDII.Estructuras
         List<Nodo> Arbollista = new List<Nodo>();
         public void Insertar(int ID, string Name, string Adress)
         {
+            Estructuras.Bestrella_Producto_Sucursal_.Instance.Sucursale.Add(ID);
             Inserciones++;
             int num = 0;
             int validar_Hijo = 0;
