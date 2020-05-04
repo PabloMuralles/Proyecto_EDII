@@ -26,14 +26,14 @@ namespace Proyecto_EDDII.Compresion
                     LecturaArchivo(PathSucursal);
                     break;
                 case "producto":
-                    LecturaArchivo(PathSucursal);
+                    LecturaArchivo(PathProducto);
                     break;
                 case "sucursal-producto":
                     LecturaArchivo(PathSucursal_Producto);
                     break;
-                case "todos":
+                case "":
                     LecturaArchivo(PathSucursal);
-                    LecturaArchivo(PathSucursal);
+                    LecturaArchivo(PathProducto);
                     LecturaArchivo(PathSucursal_Producto);
                     break;
                     
@@ -51,7 +51,7 @@ namespace Proyecto_EDDII.Compresion
                     var LonguitudArchivo = Convert.ToInt32(reader.BaseStream.Length);
                     byte[] buffer = new byte[LonguitudArchivo];
                     buffer = reader.ReadBytes(LonguitudArchivo);
-                    CompresionArchivo(buffer, Archivo.Name);
+                    CompresionArchivo(buffer, Path.GetFileName(pathArchivo));
 
 
                 }

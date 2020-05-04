@@ -81,14 +81,32 @@ namespace Proyecto_EDDII.Controllers
 
         [HttpPost]
         [Route("compresion/{arbol}")]
-        /// En la ruta debe de ingresar sucursal, producto, sucursal-producto o todos para comprimir todos
-        public ActionResult CompresionData(string arbol)
+        /// En la ruta debe de ingresar sucursal, producto, sucursal-producto este solo es para uno en especifico 
+        public ActionResult CompresionDataCases(string arbol)
         {
             if (ModelState.IsValid)
             {
                 Compresion.Compresion NuevoCompresion = new Compresion.Compresion();
 
                 NuevoCompresion.EscogerArchivos(arbol);
+
+                return Ok();
+            }
+            return BadRequest(ModelState);
+
+
+        }
+
+        [HttpPost]
+        [Route("compresion/")]
+        /// En la ruta debe de dejar la vacía para poder comprimir todos los archivos de los arboles
+        public ActionResult CompresionDataAll()
+        {
+            if (ModelState.IsValid)
+            {
+                Compresion.Compresion NuevoCompresion = new Compresion.Compresion();
+
+                NuevoCompresion.EscogerArchivos("");
 
                 return Ok();
             }
