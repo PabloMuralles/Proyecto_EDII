@@ -315,12 +315,10 @@ namespace Proyecto_EDDII.Estructuras
             }
             return valores;
         }
-        public void Recorrido(Nodo raiz)
+        public Precio_Sucursal Busqueda(int identificador)
         {
-            if (identificador > 1)
-            {
-
-            }
+            Precio_Sucursal PS = raiz.Busqueda(identificador, grado);
+            return PS;
         }
         public void Escribir()
         {

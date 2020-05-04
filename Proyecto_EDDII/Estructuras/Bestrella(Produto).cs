@@ -382,5 +382,10 @@ namespace Proyecto_EDDII.Estructuras
                 }
             }
         }
+        public Producto Busqueda(int ID)
+        {
+            Producto producto = raiz.Busqueda(ID, grado);
+            return producto;
+        }
     }
 }

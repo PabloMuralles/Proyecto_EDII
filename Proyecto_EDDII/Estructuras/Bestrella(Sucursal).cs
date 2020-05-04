@@ -32,7 +32,7 @@ namespace Proyecto_EDDII.Estructuras
             int validar_Hijo = 0;
             if (entrar)
             {
-                raiz = new Nodo(grado,entrar);
+                raiz = new Nodo(grado, entrar);
                 entrar = false;
                 raiz.values[0] = new Sucursal()
                 {
@@ -51,7 +51,7 @@ namespace Proyecto_EDDII.Estructuras
                     // Ir a la Izquierda
                     if (ID < raiz.values[identificador - 4].ID)
                     {
-                        Insertar_Izquierda(ID,Name,Adress);                       
+                        Insertar_Izquierda(ID, Name, Adress);
                     }
                     // Ir a la derecha
                     else
@@ -63,43 +63,43 @@ namespace Proyecto_EDDII.Estructuras
                 }
                 else
                 {
-                  foreach (var espacio in raiz.values)
-                   {
-                    if (espacio == null && num < valor)
+                    foreach (var espacio in raiz.values)
                     {
-                          
-                        raiz.values[num] = new Sucursal()
+                        if (espacio == null && num < valor)
                         {
-                            ID = ID,
-                            Nombre = Name,
-                            direccion = Adress
-                        };
+
+                            raiz.values[num] = new Sucursal()
+                            {
+                                ID = ID,
+                                Nombre = Name,
+                                direccion = Adress
+                            };
                             Arbollista.Add(raiz);
                             break;
-                    }
-                    num++;
-                    if (num == valor) /// full
-                    {
-                        // crear un auxiliar
-                        Sucursal[] Auxiliar_ = Auxiliar(ID, Name, Adress, raiz.values);
-                        // dividir el auxiliar
-                        int intermedio = Auxiliar_.Length / 2;
+                        }
+                        num++;
+                        if (num == valor) /// full
+                        {
+                            // crear un auxiliar
+                            Sucursal[] Auxiliar_ = Auxiliar(ID, Name, Adress, raiz.values);
+                            // dividir el auxiliar
+                            int intermedio = Auxiliar_.Length / 2;
                             //Izquierda hasta la mitad
                             ;
-                         raiz.hijos[0] = Izquierda(Auxiliar_, intermedio,raiz.ID);
-                        //derecha hasta la mtad
-                       
-                        raiz.hijos[1] = Derecha(Auxiliar_,intermedio,raiz.ID);
-                       // vaciar raiz
-                      Array.Clear(raiz.values, 0, raiz.values.Length);
-                      //Asignar nuevo dato a raiz
-                      raiz.values[0] = Auxiliar_[intermedio];
-                      Arbollista.Add(raiz);
+                            raiz.hijos[0] = Izquierda(Auxiliar_, intermedio, raiz.ID);
+                            //derecha hasta la mtad
+
+                            raiz.hijos[1] = Derecha(Auxiliar_, intermedio, raiz.ID);
+                            // vaciar raiz
+                            Array.Clear(raiz.values, 0, raiz.values.Length);
+                            //Asignar nuevo dato a raiz
+                            raiz.values[0] = Auxiliar_[intermedio];
+                            Arbollista.Add(raiz);
                             //componer esta parte
                             Arbollista.Add(raiz.hijos[0]);
                             Arbollista.Add(raiz.hijos[1]);
-                   }
-                  }
+                        }
+                    }
                 }
                 raiz.values = Ordenar(raiz.values);
             }
@@ -127,30 +127,30 @@ namespace Proyecto_EDDII.Estructuras
         }
         public void Insertar_Izquierda(int ID, string Name, string Adress)
         {
-            int num = 0;           
-                foreach (var espacio in raiz.hijos[identificador - 4].values)
+            int num = 0;
+            foreach (var espacio in raiz.hijos[identificador - 4].values)
+            {
+                if (espacio == null && num < grado - 1)
                 {
-                    if (espacio == null && num < grado - 1)
+                    raiz.hijos[0].values[num] = new Sucursal()
                     {
-                        raiz.hijos[0].values[num] = new Sucursal()
-                        {
-                            ID = ID,
-                            Nombre = Name,
-                            direccion = Adress
-                        };
-                        raiz.hijos[identificador - 4].values = Ordenar(raiz.hijos[identificador - 4].values);
+                        ID = ID,
+                        Nombre = Name,
+                        direccion = Adress
+                    };
+                    raiz.hijos[identificador - 4].values = Ordenar(raiz.hijos[identificador - 4].values);
                     /// Ingresar nueva lista
-                        Arbollista.Add(raiz);
-                        Arbollista.Add(raiz.hijos[identificador - 4]);
-                        Arbollista.Add(raiz.hijos[identificador - 3]);
+                    Arbollista.Add(raiz);
+                    Arbollista.Add(raiz.hijos[identificador - 4]);
+                    Arbollista.Add(raiz.hijos[identificador - 3]);
                     break;
-                    }
-                    num++;
-                    // esta lleno y revisar hermano derecho
-                    if (num == grado - 1)
-                    {                      
-                        foreach (var disponibilidad in raiz.hijos[identificador - 3].values)
-                        {
+                }
+                num++;
+                // esta lleno y revisar hermano derecho
+                if (num == grado - 1)
+                {
+                    foreach (var disponibilidad in raiz.hijos[identificador - 3].values)
+                    {
                         if (disponibilidad == null)
                         {
                             //encontrar ultima posicion de la raiz
@@ -166,10 +166,10 @@ namespace Proyecto_EDDII.Estructuras
                             //colocar nueva raiz
                             raiz.values[contador - 1] = new Sucursal() { ID = ID, Nombre = Name, direccion = Adress };
                             break;
-                        }                                               
                         }
                     }
-                }            
+                }
+            }
         }
         public void Insertar_derecha(int ID, string Name, string Adress)
         {
@@ -227,15 +227,15 @@ namespace Proyecto_EDDII.Estructuras
                         //Crear un auxiliar
                         Sucursal[] Aux_ = Auxiliar(ID, Name, Adress, raiz.hijos[identificador - 4].values);
                         //borar derecha
-                        Array.Clear(raiz.hijos[identificador - 3].values, 0, grado-1);
+                        Array.Clear(raiz.hijos[identificador - 3].values, 0, grado - 1);
                         // subir penultima posicion 
                         int nuevo_num = 0;
                         foreach (var espacio_ in raiz.values)
                         {
-                            if (espacio_ == null )
+                            if (espacio_ == null)
                             {
                                 raiz.values[nuevo_num] = Aux_[5];
-                            break;
+                                break;
                             }
                             nuevo_num++;
 
@@ -245,14 +245,14 @@ namespace Proyecto_EDDII.Estructuras
                             raiz.hijos[identificador - 4].values[i] = Aux_[i];
                         }
                         // colocar ultimo dato
-                        der.values[0] = Aux_[6];                                              
+                        der.values[0] = Aux_[6];
                     }
-                    
+
                 }
             }
         }
         public Nodo Izquierda(Sucursal[] Aux, int intermedio, int ID_padre)
-        {          
+        {
             //Izquierda
             Nodo izq = new Nodo(grado, entrar);
             izq.ID = identificador;
@@ -261,7 +261,7 @@ namespace Proyecto_EDDII.Estructuras
             for (int i = 0; i < intermedio; i++)
             {
                 izq.values[i] = Aux[i];
-            }          
+            }
             return izq;
         }
         public Nodo Derecha(Sucursal[] Aux, int intermedio, int ID_padre)
@@ -298,14 +298,13 @@ namespace Proyecto_EDDII.Estructuras
             }
             return valores;
         }
-        public void Recorrido(Nodo raiz)
+        public Sucursal Busqueda(int ID)
         {
-            if (identificador > 1)
-            {
-               
-            }
+
+            Sucursal sucursal = raiz.Busqueda(ID, grado);
+            return sucursal;
         }
-       public void Escribir()
+        public void Escribir()
         {
             string Identificar_ID = string.Empty;
             string CarpetaMetadata_S = Environment.CurrentDirectory;
@@ -313,10 +312,10 @@ namespace Proyecto_EDDII.Estructuras
             {
                 Directory.CreateDirectory(Path.Combine(CarpetaMetadata_S, "Metadata_Sucursal"));
             }
-            using (var writeStream = new FileStream(Path.Combine(CarpetaMetadata_S, "Metadata_Sucursal","Sucursal.txt"), FileMode.OpenOrCreate))
+            using (var writeStream = new FileStream(Path.Combine(CarpetaMetadata_S, "Metadata_Sucursal", "Sucursal.txt"), FileMode.OpenOrCreate))
             {
                 using (var write = new StreamWriter(writeStream))
-                {               
+                {
                     write.WriteLine("Grado " + grado);
                     write.WriteLine("Raiz " + raiz.ID);
                     write.WriteLine("Proxima posición Disponible: " + identificador);
@@ -325,7 +324,7 @@ namespace Proyecto_EDDII.Estructuras
                     {
                         if (NodoLista.padre == 0)
                         {
-                            write.Write(NodoLista.ID + "|0|");                            
+                            write.Write(NodoLista.ID + "|0|");
                         }
                         else
                         {
