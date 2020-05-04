@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
 
 namespace Proyecto_EDDII.Controllers
 {
-
+ 
     public class AlmacenamientoController : ControllerBase
     {
         [HttpPost]
@@ -17,13 +18,10 @@ namespace Proyecto_EDDII.Controllers
         {
             if (ModelState.IsValid)
             {
-
+                Estructuras.Carga.Instance.Archivo();
                 var Contraseña = Configuracion.Configuracion.Instance.Contaseña;
-
                 var NombreCifrado = Cifrado.ManejoInformacion.Instance.CifrarCadena(Datos_sucural.Nombre, Contraseña);
-
                 var DireccioCifrada = Cifrado.ManejoInformacion.Instance.CifrarCadena(Datos_sucural.direccion, Contraseña);
-
                 Estructuras.Bestrella_Sucursal_.Instance.Insertar(Datos_sucural.ID, NombreCifrado, DireccioCifrada);
 
             }
@@ -35,15 +33,11 @@ namespace Proyecto_EDDII.Controllers
         public ActionResult Info_Producto([FromBody] Producto Datos_Producto, string path)
         {
             if (ModelState.IsValid)
-            {
-                //cifrar Nombre y precio
+            {          
                 var Contraseña = Configuracion.Configuracion.Instance.Contaseña;
-
                 var NombreCifrado = Cifrado.ManejoInformacion.Instance.CifrarCadena(Datos_Producto.Nombre, Contraseña);
-
                 var PrecioCifrado = Cifrado.ManejoInformacion.Instance.CifrarCadena(Convert.ToString(Datos_Producto.Precio), Contraseña);
                 Estructuras.Bestrella_Produto_.Instance.Insertar(Datos_Producto.ID, NombreCifrado, PrecioCifrado);
-
             }
             return BadRequest(ModelState);
         }
@@ -86,7 +80,7 @@ namespace Proyecto_EDDII.Controllers
         [HttpPost]
         [Route("Busqueda/{nombre}")]
         public ActionResult Busqueda(string ID, string nombre)
-        {           
+        {
             Sucursal sucursal = null;
             Producto producto = null;
             Precio_Sucursal PS = null;
@@ -101,11 +95,11 @@ namespace Proyecto_EDDII.Controllers
                         sucursal.direccion = Cifrado.ManejoInformacion.Instance.DescifrarCadena(sucursal.direccion, Contraseña);
                         if (sucursal != null)
                             return Ok(sucursal);
-                        return NotFound();                        
+                        return NotFound();
                     case "Producto":
                         producto = Estructuras.Bestrella_Produto_.Instance.Busqueda(Convert.ToInt32(ID));
-                        producto.Nombre = Cifrado.ManejoInformacion.Instance.DescifrarCadena(producto.Nombre,Contraseña);
-                        producto.Precio = Cifrado.ManejoInformacion.Instance.DescifrarCadena(producto.Precio,Contraseña);
+                        producto.Nombre = Cifrado.ManejoInformacion.Instance.DescifrarCadena(producto.Nombre, Contraseña);
+                        producto.Precio = Cifrado.ManejoInformacion.Instance.DescifrarCadena(producto.Precio, Contraseña);
                         if (producto != null)
                             return Ok(producto);
                         return NotFound();
@@ -113,10 +107,16 @@ namespace Proyecto_EDDII.Controllers
                         PS = Estructuras.Bestrella_Producto_Sucursal_.Instance.Busqueda(Convert.ToInt32(ID));
                         if (PS != null)
                             return Ok(PS);
-                        return NotFound();                       
+                        return NotFound();
                 }
             }
             return BadRequest(ModelState);
+        }
+        [HttpPost]
+        [Route("Modificar/{nombre}")]
+        public ActionResult Modificar()
+        {
+            return Ok();
         }
     }
 }

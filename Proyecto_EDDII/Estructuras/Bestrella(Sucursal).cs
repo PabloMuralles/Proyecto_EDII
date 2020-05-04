@@ -316,19 +316,19 @@ namespace Proyecto_EDDII.Estructuras
             {
                 using (var write = new StreamWriter(writeStream))
                 {
-                    write.WriteLine("Grado " + grado);
-                    write.WriteLine("Raiz " + raiz.ID);
-                    write.WriteLine("Proxima posición Disponible: " + identificador);
+                    write.WriteLine("Grado:" + grado);
+                    write.WriteLine("Raiz:" + raiz.ID);
+                    write.WriteLine("Proxima posición Disponible:" + identificador);
 
                     foreach (var NodoLista in Arbollista)
                     {
                         if (NodoLista.padre == 0)
                         {
-                            write.Write(NodoLista.ID + "|0|");
+                            write.Write(NodoLista.ID + "ç00ç0");
                         }
                         else
                         {
-                            write.Write(NodoLista.ID + "|" + NodoLista.padre + "|");
+                            write.Write(NodoLista.ID + "ç0" + NodoLista.padre + "ç0");
 
                         }
                         if (NodoLista.hijos[0] == null)
@@ -336,7 +336,7 @@ namespace Proyecto_EDDII.Estructuras
                             string hijos = string.Empty;
                             for (int i = 0; i < grado; i++)
                             {
-                                hijos += "0|";
+                                hijos += "0ç0";
 
                             }
                             write.Write(hijos);
@@ -348,11 +348,11 @@ namespace Proyecto_EDDII.Estructuras
                             {
                                 if (nodosHijos != null)
                                 {
-                                    write.Write(nodosHijos.ID + "|");
+                                    write.Write(nodosHijos.ID + "ç0");
                                 }
                                 else
                                 {
-                                    write.Write("0|");
+                                    write.Write("0ç0");
                                 }
 
 
@@ -365,9 +365,9 @@ namespace Proyecto_EDDII.Estructuras
                             {
                                 break;
                             }
-                            write.Write(valores.ID + "|");
-                            write.Write(valores.Nombre + "|");
-                            write.Write(valores.direccion + "|");
+                            write.Write(valores.ID + "ç0");
+                            write.Write(valores.Nombre + "ç0");
+                            write.Write(valores.direccion + "ç0");
                         }
                         write.Write("\n");
                     }

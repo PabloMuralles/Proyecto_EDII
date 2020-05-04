@@ -29,7 +29,7 @@ namespace Proyecto_EDDII.Estructuras
             Queue<string[]> pila_lectura = new Queue<string[]>();
             var path = leer;
             var archivo = new StreamReader(path);
-            var linea = archivo.ReadLine();
+            var linea = archivo.ReadLine();         
             while (linea != null)
             {
                 pila_lectura.Enqueue(linea.Split(','));

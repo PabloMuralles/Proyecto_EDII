@@ -19,6 +19,7 @@ namespace Proyecto_EDDII
         {
             Configuration = configuration;
             Configuracion.Configuracion.Instance.LecturaContraseña();
+
         }
 
         public IConfiguration Configuration { get; }
