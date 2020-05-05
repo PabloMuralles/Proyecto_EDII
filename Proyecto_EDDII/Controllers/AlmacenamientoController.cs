@@ -115,23 +115,23 @@ namespace Proyecto_EDDII.Controllers
 
         }
 
-        //[HttpPost]
-        //[Route("descompresion/{arbol}")]
-        ///// En la ruta debe de ingresar sucursal, producto o sucursal-producto
-        //public ActionResult DescompresionData()
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        Compresion.Compresion NuevoCompresion = new Compresion.Compresion();
+        [HttpPost]
+        [Route("descompresion")]
+        /// En la ruta debe de ingresar sucursal, producto o sucursal-producto
+        public ActionResult DescompresionData()
+        {
+            if (ModelState.IsValid)
+            {
+                Compresion.Compresion NuevoCompresion = new Compresion.Compresion();
 
-        //        NuevoCompresion.EscogerArchivos(arbol);
+                NuevoCompresion.EscogerArchivos(arbol);
 
-        //        return Ok();
-        //    }
-        //    return BadRequest(ModelState);
+                return Ok();
+            }
+            return BadRequest(ModelState);
 
 
-        //}
+        }
 
 
 
