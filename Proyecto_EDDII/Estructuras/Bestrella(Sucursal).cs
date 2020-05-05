@@ -300,9 +300,19 @@ namespace Proyecto_EDDII.Estructuras
         }
         public Sucursal Busqueda(int ID)
         {
-
             Sucursal sucursal = raiz.Busqueda(ID, grado);
             return sucursal;
+        }
+        /// <summary>
+        /// Modifica los datos del arbol y los vuelve a escribir
+        /// </summary>
+        /// <param name="ID">Buscar el ID que se desea modificar</param>
+        /// <param name="Name">Nombre codificado</param>
+        /// <param name="Adress">Nueva direccion codificada</param>
+        public void Modificar(int ID, string Name, string Adress)
+        {
+            raiz.Modificar(ID, Name, Adress, grado);
+            Escribir();
         }
         public void Escribir()
         {
@@ -340,7 +350,6 @@ namespace Proyecto_EDDII.Estructuras
 
                             }
                             write.Write(hijos);
-
                         }
                         else
                         {
@@ -354,11 +363,8 @@ namespace Proyecto_EDDII.Estructuras
                                 {
                                     write.Write("0ç0");
                                 }
-
-
                             }
                         }
-
                         foreach (var valores in NodoLista.values)
                         {
                             if (valores == null)
@@ -371,7 +377,6 @@ namespace Proyecto_EDDII.Estructuras
                         }
                         write.Write("\n");
                     }
-
                     write.Close();
                 }
             }

@@ -114,8 +114,21 @@ namespace Proyecto_EDDII.Controllers
         }
         [HttpPost]
         [Route("Modificar/{nombre}")]
-        public ActionResult Modificar()
+        public ActionResult Modificar([FromBody] Modificar modificar  ,string nombre)
         {
+            switch (nombre)
+            {
+                case "Sucursal":
+                    var Contraseña = Configuracion.Configuracion.Instance.Contaseña;
+                    var NombreCifrado = Cifrado.ManejoInformacion.Instance.CifrarCadena(modificar.Nombre, Contraseña);
+                    var DireccioCifrada = Cifrado.ManejoInformacion.Instance.CifrarCadena(modificar.direccion, Contraseña);
+                    Estructuras.Bestrella_Sucursal_.Instance.Modificar(modificar.ID,modificar.Nombre,modificar.direccion);
+                    break;
+                case "Producto":
+                    break;
+                case "Sucursal-Producto":
+                    break;
+            }
             return Ok();
         }
     }
