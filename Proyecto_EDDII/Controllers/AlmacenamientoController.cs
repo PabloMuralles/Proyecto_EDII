@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using System.IO;
+using Microsoft.AspNetCore.Http;
+
 
 namespace Proyecto_EDDII.Controllers
 {
@@ -73,7 +77,7 @@ namespace Proyecto_EDDII.Controllers
         public ActionResult Info_SP([FromBody] Precio_Sucursal Datos_SP)
         {
             if (ModelState.IsValid)
-            {
+            { 
                 Estructuras.Bestrella_Producto_Sucursal_.Instance.Verificar(Datos_SP.ID_S, Datos_SP.ID_P, Datos_SP.cantidad);
             }
             return BadRequest(ModelState);
@@ -118,18 +122,15 @@ namespace Proyecto_EDDII.Controllers
         [HttpPost]
         [Route("descompresion")]
         /// En la ruta debe de ingresar sucursal, producto o sucursal-producto
-        public ActionResult DescompresionData()
+        public async Task<IActionResult> Descompresion(IFormFile file)
         {
-            if (ModelState.IsValid)
-            {
-                Compresion.Compresion NuevoCompresion = new Compresion.Compresion();
-
-                NuevoCompresion.EscogerArchivos(arbol);
-
-                return Ok();
-            }
-            return BadRequest(ModelState);
-
+            var filePath = Path.GetTempFileName();
+            if (file.Length > 0)
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                    await file.CopyToAsync(stream);
+            var FilePath = Path.GetTempPath();
+            Compresion.Descompresion descompresion = new Compresion.Descompresion(file);
+            return Ok();
 
         }
 

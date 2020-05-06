@@ -51,7 +51,7 @@ namespace Proyecto_EDDII.Compresion
                     var LonguitudArchivo = Convert.ToInt32(reader.BaseStream.Length);
                     byte[] buffer = new byte[LonguitudArchivo];
                     buffer = reader.ReadBytes(LonguitudArchivo);
-                    CompresionArchivo(buffer, Path.GetFileName(pathArchivo));
+                    CompresionArchivo(buffer, Path.GetFileNameWithoutExtension(pathArchivo));
 
 
                 }

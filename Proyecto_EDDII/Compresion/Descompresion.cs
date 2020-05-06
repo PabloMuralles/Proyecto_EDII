@@ -14,28 +14,28 @@ namespace Proyecto_EDDII.Compresion
 
  
 
-        public Descompresion(string pathArchivo)
+        public Descompresion(IFormFile pathArchivo)
         {
-            Nombre = Path.GetFileName(pathArchivo);
-       
+            Nombre = Path.GetFileNameWithoutExtension(pathArchivo.FileName);
+             
             Lectura(pathArchivo);
              
         }
 
 
-        public void Lectura(string path)
+        public void Lectura(IFormFile Archivo)
         {
-            FileStream Archivo = new FileStream(path, FileMode.Open);
+            
              
             string Carpetadesscompress = Environment.CurrentDirectory;
 
-            if (!Directory.Exists(Path.Combine(Carpetadesscompress, "decompressData")))
+            if (!Directory.Exists(Path.Combine(Carpetadesscompress, "DecompressData")))
             {
-                Directory.CreateDirectory(Path.Combine(Carpetadesscompress, "decompressData"));
+                Directory.CreateDirectory(Path.Combine(Carpetadesscompress, "DecompressData"));
             }
-            using (var reader = new BinaryReader(Archivo))
+            using (var reader = new BinaryReader(Archivo.OpenReadStream()))
             {
-                using (var streamwitre = new FileStream(Path.Combine(Carpetadesscompress, "decompressData", $"{Nombre}.txt"), FileMode.OpenOrCreate))
+                using (var streamwitre = new FileStream(Path.Combine(Carpetadesscompress, "DecompressData", $"{Nombre}.txt"), FileMode.OpenOrCreate))
                 {
                     using (var write = new BinaryWriter(streamwitre))
                     {
