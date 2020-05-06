@@ -98,11 +98,9 @@ namespace Proyecto_EDDII.Estructuras
                             Precio_Sucursal[] Auxiliar_ = Auxiliar(ID_S, ID_P, Cantidad, raiz.values);
                             // dividir el auxiliar
                             int intermedio = Auxiliar_.Length / 2;
-                            //Izquierda hasta la mitad
-                            ;
+                            //Izquierda hasta la mitad                            
                             raiz.hijos[0] = Izquierda(Auxiliar_, intermedio, raiz.ID);
                             //derecha hasta la mtad
-
                             raiz.hijos[1] = Derecha(Auxiliar_, intermedio, raiz.ID);
                             // vaciar raiz
                             Array.Clear(raiz.values, 0, raiz.values.Length);

@@ -114,8 +114,6 @@ namespace Proyecto_EDDII.Controllers
  
             }
             return BadRequest(ModelState);
-
-
         }
 
         [HttpPost]
@@ -169,6 +167,12 @@ namespace Proyecto_EDDII.Controllers
             }
             return BadRequest(ModelState);
         }
+        /// <summary>
+        /// Metodo de modificar árbol
+        /// </summary>
+        /// <param name="modificar">Json con los datos que se van a modificar</param>
+        /// <param name="nombre">Nombre del arbol que se quiere modificar</param>
+        /// <returns></returns>
         [HttpPost]
         [Route("Modificar/{nombre}")]
         public ActionResult Modificar([FromBody] Modificar modificar  ,string nombre)
@@ -192,6 +196,5 @@ namespace Proyecto_EDDII.Controllers
             }
             return Ok();
         }
- 
     }
 }
