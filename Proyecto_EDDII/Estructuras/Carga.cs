@@ -23,8 +23,7 @@ namespace Proyecto_EDDII.Estructuras
         /// Buscar si existe datos anteriores
         /// </summary>
         public void Archivo_Sucursal()
-        {
-            var Contraseña = Configuracion.Configuracion.Instance.Contaseña;
+        {           
             var Separacion = "ç0";
             string CarpetaMetadata_S = Environment.CurrentDirectory;
             if (Directory.Exists(Path.Combine(CarpetaMetadata_S, "Metadata_Sucursal")))
@@ -58,15 +57,21 @@ namespace Proyecto_EDDII.Estructuras
                         linea = reader.ReadLine();
                         contador++;
                     }
+                    Archivo.Close();
+                }                
+            }          
+                    //Borrar lo que contenga Sucursal                    
+                    string PathDebug = Environment.CurrentDirectory;
+                    if (File.Exists(Path.Combine(PathDebug, "Metadata_Sucursal", "Sucursal.txt")))
+                    {
+                        File.Delete(Path.Combine(PathDebug, "Metadata_Sucursal", "Sucursal.txt"));
+                    }
                     // Mientras la pila no este vacía recorrerla para insertar en arbol
                     while (Carga_Datos_Sucursal.Count() != 0)
-                    {
-                        var NombreCifrado = Cifrado.ManejoInformacion.Instance.CifrarCadena(Carga_Datos_Sucursal.Peek().Nombre, Contraseña);
-                        var DireccioCifrada = Cifrado.ManejoInformacion.Instance.CifrarCadena(Carga_Datos_Sucursal.Peek().direccion, Contraseña);
-                        Estructuras.Bestrella_Sucursal_.Instance.Insertar(Carga_Datos_Sucursal.Peek().ID, NombreCifrado, DireccioCifrada);
+                    {                 
+                        Estructuras.Bestrella_Sucursal_.Instance.Insertar(Carga_Datos_Sucursal.Peek().ID, Carga_Datos_Sucursal.Peek().Nombre, Carga_Datos_Sucursal.Peek().direccion);
+                        Carga_Datos_Sucursal.Dequeue();
                     }
-                }
-            }
         }
         public void Archivo_Producto()
         {

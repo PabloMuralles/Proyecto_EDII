@@ -322,6 +322,7 @@ namespace Proyecto_EDDII.Estructuras
             {
                 using (var write = new StreamWriter(writeStream))
                 {
+                   
                     write.WriteLine("Grado " + grado);
                     write.WriteLine("Raiz " + raiz.ID);
                     write.WriteLine("Proxima posición Disponible: " + identificador);

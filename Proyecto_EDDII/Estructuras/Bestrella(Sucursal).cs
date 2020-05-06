@@ -24,6 +24,7 @@ namespace Proyecto_EDDII.Estructuras
         public int Inserciones = 0;
         static int valor = ((4 * (grado - 1)) / 3);
         List<Nodo> Arbollista = new List<Nodo>();
+
         public void Insertar(int ID, string Name, string Adress)
         {
             Estructuras.Bestrella_Producto_Sucursal_.Instance.Sucursale.Add(ID);
@@ -102,7 +103,7 @@ namespace Proyecto_EDDII.Estructuras
                     }
                 }
                 raiz.values = Ordenar(raiz.values);
-            }
+            }           
             Escribir();
             // limpiar la lista para que no se repita
             Arbollista.Clear();
