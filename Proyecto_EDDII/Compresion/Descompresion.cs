@@ -9,11 +9,16 @@ namespace Proyecto_EDDII.Compresion
 {
     public class Descompresion
     {
-
-        string Nombre = string.Empty;
+        /// <summary>
+        /// variable gobal para poder almacenar del nuevo archivo a comprimir
+        /// </summary>
+        private string Nombre = string.Empty;
 
  
-
+        /// <summary>
+        /// Constructuro de la clase
+        /// </summary>
+        /// <param name="pathArchivo"> Se recibe el achivo subido por medio de postman</param>
         public Descompresion(IFormFile pathArchivo)
         {
             Nombre = Path.GetFileNameWithoutExtension(pathArchivo.FileName);
@@ -22,11 +27,12 @@ namespace Proyecto_EDDII.Compresion
              
         }
 
-
-        public void Lectura(IFormFile Archivo)
-        {
-            
-             
+        /// <summary>
+        /// Metodo para poder leer el archivo compreso y al mismo tiempo ir escribiendo el archivo descompreso
+        /// </summary>
+        /// <param name="Archivo"> Recibe el archivo subido por medio de postman</param>
+        private void Lectura(IFormFile Archivo)
+        { 
             string Carpetadesscompress = Environment.CurrentDirectory;
 
             if (!Directory.Exists(Path.Combine(Carpetadesscompress, "DecompressData")))
@@ -96,8 +102,13 @@ namespace Proyecto_EDDII.Compresion
             }
         }
 
-
-        public string Descomprimir(int[] ArchivoComprimido, Dictionary<string, int> dicci)
+        /// <summary>
+        /// Metodo para poder descomprimir el archivo cifrado
+        /// </summary>
+        /// <param name="ArchivoComprimido">Arreglo de int donde viene los caracteres cifrados del texto</param>
+        /// <param name="dicci">Diccionario inicial que se leyo del documento</param>
+        /// <returns>El texto descifrado/returns>
+        private string Descomprimir(int[] ArchivoComprimido, Dictionary<string, int> dicci)
         {
             var DiccionarioTemp = new Dictionary<string, int>(dicci);
             var Actual = string.Empty;
@@ -136,15 +147,6 @@ namespace Proyecto_EDDII.Compresion
             }
             return Texto;
         }
-
-
-
-
-
-
-
-
-
-
+         
     }
 }

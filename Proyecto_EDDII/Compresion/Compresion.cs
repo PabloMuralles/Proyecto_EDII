@@ -10,10 +10,16 @@ namespace Proyecto_EDDII.Compresion
     public class Compresion
     { 
 
-        Dictionary<string, int> DiccionarioTotal;
+        /// <summary>
+        /// Diccionario total que se va ir formando con forme se va ir leyendo  y comprimiendo el texto
+        /// </summary>
+        private Dictionary<string, int> DiccionarioTotal;
 
     
-
+        /// <summary>
+        /// Metodo para escoger el arbol que se desea comprimir
+        /// </summary>
+        /// <param name="arbol"> el arbol que se desea comprimir</param>
         public void EscogerArchivos(string arbol)
         {
             string PathSucursal = Path.Combine(Environment.CurrentDirectory, "Metadata_Sucursal", "Sucursal.txt");
@@ -39,8 +45,11 @@ namespace Proyecto_EDDII.Compresion
                     
             }
         }
-
-        public void LecturaArchivo(string pathArchivo)
+        /// <summary>
+        /// Metodo para leer el archivo que se desea comprimir
+        /// </summary>
+        /// <param name="pathArchivo">ruta del archivo a comprimir</param>
+        private void LecturaArchivo(string pathArchivo)
         {
             
             using (var Archivo = new FileStream(pathArchivo,FileMode.Open))
@@ -59,7 +68,12 @@ namespace Proyecto_EDDII.Compresion
 
         }
 
-        public Dictionary<string, int> DiccionarioInicial(byte[] text)
+        /// <summary>
+        /// Metodo para crear el diccionario inicial del documento a comprimir
+        /// </summary>
+        /// <param name="text">texto que se desea comprimir en bytes</param>
+        /// <returns>El diccionario inicial del documento</returns>
+        private Dictionary<string, int> DiccionarioInicial(byte[] text)
         {
             Dictionary<string, int> DiccionarioInicial = new Dictionary<string, int>();
             foreach (byte Caracter in text)
@@ -75,20 +89,26 @@ namespace Proyecto_EDDII.Compresion
             return DiccionarioInicial;
         }
 
-        public int[] CompressFile(byte[] file, Dictionary<string, int> diccionarioinicialc)
+        /// <summary>
+        /// Metodo para comprimir el archivo y generar el diciconario total
+        /// </summary>
+        /// <param name="Texto">Recibe el texto en bytes para poder cifrarlo</param>
+        /// <param name="DiccionarioInicial">El diccionario inicial del archivo</param>
+        /// <returns>El archivo compreso en bytes</returns>
+        private int[] CompresionTexto(byte[] Texto, Dictionary<string, int> DiccionarioInicial)
         {
-            var DiccionarioTemp = new Dictionary<string, int>(diccionarioinicialc);
+            var DiccionarioTemp = new Dictionary<string, int>(DiccionarioInicial);
             var Contador = 0;
             var CaracteresLeidos = string.Empty;
             var Bytes = new List<int>();
-            while (Contador < file.Length)
+            while (Contador < Texto.Length)
             {
-                CaracteresLeidos += Convert.ToString(Convert.ToChar(file[Contador]));
+                CaracteresLeidos += Convert.ToString(Convert.ToChar(Texto[Contador]));
                 Contador++;
 
-                while (DiccionarioTemp.ContainsKey(CaracteresLeidos) && Contador < file.Length)
+                while (DiccionarioTemp.ContainsKey(CaracteresLeidos) && Contador < Texto.Length)
                 {
-                    CaracteresLeidos += Convert.ToString(Convert.ToChar(file[Contador]));
+                    CaracteresLeidos += Convert.ToString(Convert.ToChar(Texto[Contador]));
                     Contador++;
                 }
 
@@ -114,16 +134,25 @@ namespace Proyecto_EDDII.Compresion
 
 
         }
-
-        public void CompresionArchivo(byte[] archivo, string Nombre)
+        /// <summary>
+        /// Metodo para comprimir todo el arhivo une todos los metodos
+        /// </summary>
+        /// <param name="archivo">archivo sin comprimir en bytes que se leyo con anteriorirad </param>
+        /// <param name="Nombre">Nombre del archivo para el documento compreso</param>
+        private void CompresionArchivo(byte[] archivo, string Nombre)
         {
             Dictionary<string, int> Diccionario_Inicial = DiccionarioInicial(archivo);
-            int[] ComprimirArchivo = CompressFile(archivo, Diccionario_Inicial);
+            int[] ComprimirArchivo = CompresionTexto(archivo, Diccionario_Inicial);
             Escritura(ComprimirArchivo, Diccionario_Inicial,Nombre);
         }
 
-
-        public void Escritura(int[] Compresion, Dictionary<string, int> diccionario, string Name)
+        /// <summary>
+        /// Metodo para escribir el archivo comprimido
+        /// </summary>
+        /// <param name="Compresion">Texto comprimido en ints</param>
+        /// <param name="diccionario">Diccionario inicial para escribirlo en el texto </param>
+        /// <param name="Name">El nombre que se le va poner al archivo compreso</param>
+        private void Escritura(int[] Compresion, Dictionary<string, int> diccionario, string Name)
         {
 
 
