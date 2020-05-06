@@ -320,6 +320,11 @@ namespace Proyecto_EDDII.Estructuras
             Precio_Sucursal PS = raiz.Busqueda(identificador, grado);
             return PS;
         }
+        public void Modificar(int identificador, int cantidad)
+        {
+            raiz.Modificar(identificador,cantidad, grado);
+            Escribir();
+        }
         public void Escribir()
         {
             string Identificar_ID = string.Empty;

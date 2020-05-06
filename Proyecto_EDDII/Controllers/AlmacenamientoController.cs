@@ -18,7 +18,7 @@ namespace Proyecto_EDDII.Controllers
         {
             if (ModelState.IsValid)
             {
-                Estructuras.Carga.Instance.Archivo();
+                //Estructuras.Carga.Instance.Archivo();
                 var Contraseña = Configuracion.Configuracion.Instance.Contaseña;
                 var NombreCifrado = Cifrado.ManejoInformacion.Instance.CifrarCadena(Datos_sucural.Nombre, Contraseña);
                 var DireccioCifrada = Cifrado.ManejoInformacion.Instance.CifrarCadena(Datos_sucural.direccion, Contraseña);
@@ -116,17 +116,21 @@ namespace Proyecto_EDDII.Controllers
         [Route("Modificar/{nombre}")]
         public ActionResult Modificar([FromBody] Modificar modificar  ,string nombre)
         {
+            var Contraseña = Configuracion.Configuracion.Instance.Contaseña;
             switch (nombre)
             {
                 case "Sucursal":
-                    var Contraseña = Configuracion.Configuracion.Instance.Contaseña;
                     var NombreCifrado = Cifrado.ManejoInformacion.Instance.CifrarCadena(modificar.Nombre, Contraseña);
                     var DireccioCifrada = Cifrado.ManejoInformacion.Instance.CifrarCadena(modificar.direccion, Contraseña);
-                    Estructuras.Bestrella_Sucursal_.Instance.Modificar(modificar.ID,modificar.Nombre,modificar.direccion);
+                    Estructuras.Bestrella_Sucursal_.Instance.Modificar(modificar.ID,NombreCifrado,DireccioCifrada);
                     break;
-                case "Producto":
+                case "Producto":                   
+                    var NombreCifradoProducto = Cifrado.ManejoInformacion.Instance.CifrarCadena(modificar.Nombre, Contraseña);
+                    var PrecioCifrado = Cifrado.ManejoInformacion.Instance.CifrarCadena(modificar.Precio,Contraseña);
+                    Estructuras.Bestrella_Produto_.Instance.Modificar(modificar.ID,NombreCifradoProducto,PrecioCifrado);
                     break;
                 case "Sucursal-Producto":
+                    Estructuras.Bestrella_Producto_Sucursal_.Instance.Modificar(modificar.identificador,modificar.cantidad);
                     break;
             }
             return Ok();

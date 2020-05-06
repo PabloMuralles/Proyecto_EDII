@@ -57,7 +57,7 @@ namespace Proyecto_EDDII
                                 }
                             }
                         }
-                    }                   
+                    }
                     if (identificador == values[i].identificador)
                     {
                         PSBuscada.identificador = values[i].identificador;
@@ -69,6 +69,51 @@ namespace Proyecto_EDDII
                 }
             }
             return PSBuscada;
+        }
+        public void Modificar(int identificador, int cantidad, int grado)
+        {
+            for (int i = 0; i < grado - 1; i++)
+            {
+                if (values[i] != null)
+                {
+                    //String.Compare(nombre, values[i].Nombre) == -1
+                    if (identificador < values[i].identificador)
+                    {
+                        if (hijos[0] != null)
+                        {
+                            hijos[i].Busqueda(identificador, grado);
+                        }
+                    }
+                    //String.Compare(nombre, values[i].Nombre) == 1
+                    if (identificador > values[i].identificador)
+                    {
+                        if (hijos[0] != null)
+                        {
+                            if (values[i + 1] == null)
+                            {
+                                hijos[i + 1].Busqueda(identificador, grado);
+                            }
+                            else
+                            {
+                                //String.Compare(nombre, values[i + 1].Nombre) == -1
+                                if (identificador < values[i + 1].identificador)
+                                {
+                                    hijos[i].Busqueda(identificador, grado);
+                                }
+                            }
+                        }
+                    }
+                    //String.Compare(nombre, values[i].Nombre) == 0
+                    if (identificador == values[i].identificador)
+                    {
+                        values[i] = new Precio_Sucursal()
+                        {
+                            identificador = identificador,
+                            cantidad = cantidad
+                        };
+                    }
+                }
+            }
         }
     }
 }

@@ -72,5 +72,51 @@ namespace Proyecto_EDDII
             }
             return productoBuscada;
         }
+        public void Modificar(int ID, string Name, string Price, int grado)
+        {
+            for (int i = 0; i < grado - 1; i++)
+            {
+                if (values[i] != null)
+                {
+                    //String.Compare(nombre, values[i].Nombre) == -1
+                    if (ID < values[i].ID)
+                    {
+                        if (hijos[0] != null)
+                        {
+                            hijos[i].Busqueda(ID, grado);
+                        }
+                    }
+                    //String.Compare(nombre, values[i].Nombre) == 1
+                    if (ID > values[i].ID)
+                    {
+                        if (hijos[0] != null)
+                        {
+                            if (values[i + 1] == null)
+                            {
+                                hijos[i + 1].Busqueda(ID, grado);
+                            }
+                            else
+                            {
+                                //String.Compare(nombre, values[i + 1].Nombre) == -1
+                                if (ID < values[i + 1].ID)
+                                {
+                                    hijos[i].Busqueda(ID, grado);
+                                }
+                            }
+                        }
+                    }
+                    //String.Compare(nombre, values[i].Nombre) == 0
+                    if (ID == values[i].ID)
+                    {
+                        values[i] = new Producto()
+                        {
+                            ID = ID,
+                            Nombre = Name,
+                            Precio = Price
+                        };
+                    }
+                }
+            }
+        }
     }
 }

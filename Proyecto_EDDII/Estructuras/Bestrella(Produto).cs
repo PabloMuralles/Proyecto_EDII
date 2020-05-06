@@ -382,6 +382,11 @@ namespace Proyecto_EDDII.Estructuras
                 }
             }
         }
+        public void Modificar(int ID, string Name, string Price)
+        {
+            raiz.Modificar(ID, Name, Price, grado);
+            Escribir();
+        }
         public Producto Busqueda(int ID)
         {
             Producto producto = raiz.Busqueda(ID, grado);
