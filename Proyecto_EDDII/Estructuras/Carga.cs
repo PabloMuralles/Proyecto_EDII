@@ -19,8 +19,10 @@ namespace Proyecto_EDDII.Estructuras
         }
         private Queue<Sucursal> Carga_Datos_Sucursal = new Queue<Sucursal>();
         private Queue<Producto> Carga_Datos_Producto = new Queue<Producto>();
+        private Queue<Precio_Sucursal> Carga_Datos_PS = new Queue<Precio_Sucursal>();
         /// <summary>
-        /// Buscar si existe datos anteriores
+        /// Buscar si existe datos anteriores para volver a cargarlos
+        /// y enviarlos a volvrer a insertar para generar el arbol
         /// </summary>
         public void Archivo_Sucursal()
         {           
@@ -60,7 +62,7 @@ namespace Proyecto_EDDII.Estructuras
                     Archivo.Close();
                 }                
             }          
-                    //Borrar lo que contenga Sucursal                    
+                    //Borrar lo que contenga para volver a escribir todo                    
                     string PathDebug = Environment.CurrentDirectory;
                     if (File.Exists(Path.Combine(PathDebug, "Metadata_Sucursal", "Sucursal.txt")))
                     {
@@ -77,11 +79,11 @@ namespace Proyecto_EDDII.Estructuras
         {
             var Separacion = "ç0";
             string CarpetaMetadata_S = Environment.CurrentDirectory;
-            if (Directory.Exists(Path.Combine(CarpetaMetadata_S, "Metadata_Sucursal")))
+            if (Directory.Exists(Path.Combine(CarpetaMetadata_S, "Metadata_Producto")))
             {
-                if (File.Exists(Path.Combine(CarpetaMetadata_S, "Metadata_Sucursal", "Sucursal.txt")))
+                if (File.Exists(Path.Combine(CarpetaMetadata_S, "Metadata_Producto", "Producto.txt")))
                 {
-                    FileStream Archivo = new FileStream((Path.Combine(CarpetaMetadata_S, "Metadata_Sucursal", "Sucursal.txt")), FileMode.Open);
+                    FileStream Archivo = new FileStream((Path.Combine(CarpetaMetadata_S, "Metadata_Producto", "Producto.txt")), FileMode.Open);
                     StreamReader reader = new StreamReader(Archivo);
                     var linea = reader.ReadLine();
                     int contador = 0;
@@ -108,7 +110,69 @@ namespace Proyecto_EDDII.Estructuras
                         linea = reader.ReadLine();
                         contador++;
                     }
+                    Archivo.Close();
+                }                
+            }
+            string PathDebug = Environment.CurrentDirectory;
+            if (File.Exists(Path.Combine(PathDebug, "Metadata_Producto", "Producto.txt")))
+            {
+                File.Delete(Path.Combine(PathDebug, "Metadata_Producto", "Producto.txt"));
+            }
+            while (Carga_Datos_Producto.Count() != 0)
+            {
+                Estructuras.Bestrella_Produto_.Instance.Insertar(Carga_Datos_Producto.Peek().ID, Carga_Datos_Producto.Peek().Nombre, Carga_Datos_Producto.Peek().Precio);
+                Carga_Datos_Producto.Dequeue();
+            }
+        }
+        
+        public void Archivo_SP()
+        {
+            var Separacion = "ç0";
+            string CarpetaMetadata_S = Environment.CurrentDirectory;
+            if (Directory.Exists(Path.Combine(CarpetaMetadata_S, "Metadata_SP")))
+            {
+                if (File.Exists(Path.Combine(CarpetaMetadata_S, "Metadata_SP", "Producto-Sucursal.txt")))
+                {
+                    FileStream Archivo = new FileStream((Path.Combine(CarpetaMetadata_S, "Metadata_SP", "Producto-Sucursal.txt")), FileMode.Open);
+                    StreamReader reader = new StreamReader(Archivo);
+                    var linea = reader.ReadLine();
+                    int contador = 0;
+                    while (linea != null)
+                    {
+                        linea = linea.Trim();
+                        if (contador >= 3)
+                        {
+                            var Antiguo_Datos = new Precio_Sucursal();
+                            var Datos = linea.Substring(27, linea.Length - 27);
+                            var Datos_Separados = Datos.Split(Separacion);
+                            for (int i = 0; i < Datos_Separados.Length - 1; i++)
+                            {
+                                Antiguo_Datos = new Precio_Sucursal()
+                                {
+                                    identificador = Convert.ToInt32(Datos_Separados[i]),
+                                    ID_S = Convert.ToInt32(Datos_Separados[i + 1]),
+                                     ID_P = Convert.ToInt32(Datos_Separados[i+2]),
+                                     cantidad = Convert.ToInt32(Datos_Separados[i + 3])
+                                };
+                                Carga_Datos_PS.Enqueue(Antiguo_Datos);
+                                i += 3;
+                            }
+                        }
+                        linea = reader.ReadLine();
+                        contador++;
+                    }
+                    Archivo.Close();
                 }
+            }
+            string PathDebug = Environment.CurrentDirectory;
+            if (File.Exists(Path.Combine(PathDebug, "Metadata_SP", "Producto-Sucursal.txt")))
+            {
+                File.Delete(Path.Combine(PathDebug, "Metadata_SP", "Producto-Sucursal.txt"));
+            }
+            while (Carga_Datos_PS.Count() != 0)
+            {
+                Estructuras.Bestrella_Producto_Sucursal_.Instance.Insertar(Carga_Datos_PS.Peek().ID_S,Carga_Datos_PS.Peek().ID_P,Carga_Datos_PS.Peek().cantidad);
+                Carga_Datos_PS.Dequeue();
             }
         }
     }

@@ -343,11 +343,11 @@ namespace Proyecto_EDDII.Estructuras
                     {
                         if (NodoLista.padre == 0)
                         {
-                            write.Write(NodoLista.ID + "|0|");
+                            write.Write(NodoLista.ID + "ç00ç0");
                         }
                         else
                         {
-                            write.Write(NodoLista.ID + "|" + NodoLista.padre + "|");
+                            write.Write(NodoLista.ID + "ç0" + NodoLista.padre + "ç0");
 
                         }
                         if (NodoLista.hijos[0] == null)
@@ -355,8 +355,7 @@ namespace Proyecto_EDDII.Estructuras
                             string hijos = string.Empty;
                             for (int i = 0; i < grado; i++)
                             {
-                                hijos += "0|";
-
+                                hijos += "0ç0";
                             }
                             write.Write(hijos);
 
@@ -367,11 +366,11 @@ namespace Proyecto_EDDII.Estructuras
                             {
                                 if (nodosHijos != null)
                                 {
-                                    write.Write(nodosHijos.ID + "|");
+                                    write.Write(nodosHijos.ID + "ç0");
                                 }
                                 else
                                 {
-                                    write.Write("0|");
+                                    write.Write("0ç0");
                                 }
 
 
@@ -384,10 +383,10 @@ namespace Proyecto_EDDII.Estructuras
                             {
                                 break;
                             }
-                            write.Write(valores.identificador + "|");
-                            write.Write(valores.ID_P + "|");
-                            write.Write(valores.ID_S + "|");
-                            write.Write(valores.cantidad + "|");
+                            write.Write(valores.identificador + "ç0");
+                            write.Write(valores.ID_P + "ç0");
+                            write.Write(valores.ID_S + "ç0");
+                            write.Write(valores.cantidad + "ç0");
                         }
                         write.Write("\n");
                     }

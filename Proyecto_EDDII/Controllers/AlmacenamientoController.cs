@@ -18,8 +18,8 @@ namespace Proyecto_EDDII.Controllers
         {
             if (ModelState.IsValid)
             {
- 
-                Estructuras.Carga.Instance.Archivo_Sucursal();
+                Estructuras.Carga.Instance.Archivo_SP();
+                //Estructuras.Carga.Instance.Archivo_Sucursal();
  
                 var Contraseña = Configuracion.Configuracion.Instance.Contaseña;
                 var NombreCifrado = Cifrado.ManejoInformacion.Instance.CifrarCadena(Datos_sucural.Nombre, Contraseña);
