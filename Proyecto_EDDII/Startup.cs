@@ -18,8 +18,12 @@ namespace Proyecto_EDDII
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            // se guarda la clave en una clase para poder acceder a ella en cualquier momento que se necesite 
             Configuracion.Configuracion.Instance.LecturaContraseña();
-
+            // se llama a lo metodos para verificar si existen datos anteriormente y se cargan para cada arbol
+            Estructuras.Carga.Instance.Archivo_Producto();
+            Estructuras.Carga.Instance.Archivo_Sucursal();
+            Estructuras.Carga.Instance.Archivo_SP();
         }
 
         public IConfiguration Configuration { get; }

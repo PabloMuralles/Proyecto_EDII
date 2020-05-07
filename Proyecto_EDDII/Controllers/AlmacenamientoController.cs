@@ -18,8 +18,7 @@ namespace Proyecto_EDDII.Controllers
         {
             if (ModelState.IsValid)
             {
-                Estructuras.Carga.Instance.Archivo_SP();
-                //Estructuras.Carga.Instance.Archivo_Sucursal();
+ 
  
                 var Contraseña = Configuracion.Configuracion.Instance.Contaseña;
                 var NombreCifrado = Cifrado.ManejoInformacion.Instance.CifrarCadena(Datos_sucural.Nombre, Contraseña);
@@ -116,9 +115,13 @@ namespace Proyecto_EDDII.Controllers
             return BadRequest(ModelState);
         }
 
+        /// <summary>
+        /// En la ruta debe de ingresar sucursal, producto o sucursal-producto
+        /// </summary>
+        /// <param name="file">Archivo recibido por medio de postman o cualquiera que se conecte a la api</param>
+        /// <returns></returns>
         [HttpPost]
         [Route("descompresion")]
-        /// En la ruta debe de ingresar sucursal, producto o sucursal-producto
         public async Task<IActionResult> Descompresion(IFormFile file)
         {
             var filePath = Path.GetTempFileName();
