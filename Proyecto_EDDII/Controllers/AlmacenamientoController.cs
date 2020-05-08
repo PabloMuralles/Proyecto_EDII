@@ -14,7 +14,7 @@ namespace Proyecto_EDDII.Controllers
     {
         [HttpPost]
         [Route("Sucursal")]
-        public ActionResult Info_Sucursal([FromBody] Sucursal Datos_sucural, string Key)
+        public ActionResult Info_Sucursal([FromBody] Sucursal Datos_sucural)
         {
             if (ModelState.IsValid)
             {
@@ -32,8 +32,8 @@ namespace Proyecto_EDDII.Controllers
 
         [HttpPost]
         [Route("Producto")]
-        public ActionResult Info_Producto([FromBody] Producto Datos_Producto, string path)
-        {
+        public ActionResult Info_Producto([FromBody] Producto Datos_Producto)
+         {
             if (ModelState.IsValid)
             {          
                 var Contraseña = Configuracion.Configuracion.Instance.Contaseña;
@@ -43,7 +43,7 @@ namespace Proyecto_EDDII.Controllers
  
             }
             return BadRequest(ModelState);
-        }
+        } 
 
         [HttpPost]
         [Route("Producto_CSV")]

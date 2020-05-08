@@ -93,6 +93,10 @@ namespace Proyecto_EDDII.Estructuras
                         if (contador >= 3)
                         {
                             var Antiguo_Datos = new Producto();
+                            if (linea.Length < 27)
+                            {
+                                break;
+                            }
                             var Datos = linea.Substring(27, linea.Length - 27);
                             var Datos_Separados = Datos.Split(Separacion);
                             for (int i = 0; i < Datos_Separados.Length - 1; i++)

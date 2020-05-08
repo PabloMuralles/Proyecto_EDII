@@ -24,6 +24,7 @@ namespace Proyecto_EDDII.Estructuras
         public int Inserciones = 0;
         static int valor = ((4 * (grado - 1)) / 3);
         List<Nodo_P> Arbollista = new List<Nodo_P>();
+        
         public Queue<string[]> Lectura(string leer)
         {
             Queue<string[]> pila_lectura = new Queue<string[]>();
@@ -71,7 +72,6 @@ namespace Proyecto_EDDII.Estructuras
                     {
                         Insertar_derecha(ID, Name, price);
                     }
-                    // aumentar para poder entrar 2
                     validar_Hijo = validar_Hijo + 2;
                 }
                 else
@@ -106,7 +106,7 @@ namespace Proyecto_EDDII.Estructuras
                             Array.Clear(raiz.values, 0, raiz.values.Length);
                             //Asignar nuevo dato a raiz
                             raiz.values[0] = Auxiliar_[intermedio];
-                            Arbollista.Add(raiz);
+                            Arbollista.Add(raiz);                       
                             //componer esta parte
                             Arbollista.Add(raiz.hijos[0]);
                             Arbollista.Add(raiz.hijos[1]);
@@ -180,6 +180,7 @@ namespace Proyecto_EDDII.Estructuras
                             break;
                         }
                     }
+                    
                 }
             }
         }
@@ -259,7 +260,8 @@ namespace Proyecto_EDDII.Estructuras
                         // colocar ultimo dato
                         der.values[0] = Aux_[6];
                     }
-
+                    // Aumentar el valor +2
+          
                 }
             }
         }
