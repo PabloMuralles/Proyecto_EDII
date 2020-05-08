@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
 using System.Text;
+using System.Net.Http;
+
 
 namespace Proyecto_EDDII.Configuracion
 {
@@ -42,9 +44,9 @@ namespace Proyecto_EDDII.Configuracion
             string Ruta = Environment.CurrentDirectory;
 
             var ContraseñaString = string.Empty;
-            if (File.Exists(Path.Combine(Ruta, "Contraseña", "contraseña.txt")) && new FileInfo(Path.Combine(Ruta, "Contraseña", "contraseña.txt")).Length != 0)
+            if (File.Exists(Path.Combine(Ruta, "Configuraciones", "contraseña.txt")) && new FileInfo(Path.Combine(Ruta, "Configuraciones", "contraseña.txt")).Length != 0)
             {
-                using (var Archivo = new FileStream(Path.Combine(Ruta, "Contraseña", "contraseña.txt"), FileMode.Open))
+                using (var Archivo = new FileStream(Path.Combine(Ruta, "Configuraciones", "contraseña.txt"), FileMode.Open))
                 {
                     using (var Lectura = new BinaryReader(Archivo))
                     {
@@ -53,21 +55,31 @@ namespace Proyecto_EDDII.Configuracion
                         while (Lectura.BaseStream.Position != Lectura.BaseStream.Length)
                         {
                             buffer = Lectura.ReadBytes(1);
-
+                            if (!char.IsDigit(Convert.ToChar(buffer[0])))
+                            {
+                                throw new HttpRequestException("En la llave exite una letra, la llave para sdes deben ser solo numeros");
+                            }
+                            
                             ContraseñaString += Convert.ToString(Convert.ToChar(buffer[0]));
 
                         }
                     }
 
                 }
+                if (!(Convert.ToInt32(ContraseñaString) >= 0 && Convert.ToInt32(ContraseñaString) < 1024))
+                {
+                    throw new HttpRequestException("La llave ingresada no esta en el rango aceptado");
+                }
+                
+              
 
             }
             else
             {
                 var Random = new Random();
-                if (!File.Exists(Path.Combine(Ruta, "Contraseña", "contraseña.txt")))
+                if (!File.Exists(Path.Combine(Ruta, "Configuraciones", "contraseña.txt")))
                 {
-                    using (var Archivo = new FileStream(Path.Combine(Ruta, "Contraseña", "contraseña.txt"), FileMode.Create))
+                    using (var Archivo = new FileStream(Path.Combine(Ruta, "Configuraciones", "contraseña.txt"), FileMode.Create))
                     {
                         using (var Escritura = new BinaryWriter(Archivo))
                         {
@@ -79,10 +91,10 @@ namespace Proyecto_EDDII.Configuracion
                     }
 
                 }
-                else if (new FileInfo(Path.Combine(Ruta, "Contraseña", "contraseña.txt")).Length == 0)
+                else if (new FileInfo(Path.Combine(Ruta, "Configuraciones", "contraseña.txt")).Length == 0)
                 {
 
-                    using (var Archivo = new FileStream(Path.Combine(Ruta, "Contraseña", "contraseña.txt"), FileMode.Open))
+                    using (var Archivo = new FileStream(Path.Combine(Ruta, "Configuraciones", "contraseña.txt"), FileMode.Open))
                     {
                         using (var Escritura = new BinaryWriter(Archivo))
                         {
