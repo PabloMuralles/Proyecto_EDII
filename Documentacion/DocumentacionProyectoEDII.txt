@@ -1,0 +1,246 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "Almacen Eben Ezer"
+  description: "API para manejo de inventarios del Almacen Eben Ezer"
+host: "localhost:44349"
+basePath: "/"
+
+tags:
+- name: "Producto"
+  description: "Operaciones para productos"
+- name: "Sucursal"
+  description: "Operaciones para Sucursales"
+- name: "Sucursal-Producto"
+  description: "Operaciones para Sucursales-Productos"
+- name: "CompresionData"
+  description: "Comprimir data de los árboles"
+- name: "DescompresionData"
+  description: "Descomprimir data de los árboles"
+- name: "Modificar"
+  description: "Modifica un dato de algun arbol que deseé"
+- name: "Buscar"
+  description: "Buscá un dato de algun árbol que deseé"
+- name: "Productos Por CSV"
+  description: "Cargar un archivo CSV con productos"
+  
+  
+
+paths:
+  /Sucursal:
+    post:
+      tags:
+        - "Sucursal"
+      summary: "Agregá un producto"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Recibe un json con los datos de la sucursal"
+        schema:
+          $ref: "#/definitions/Sucursal"
+      responses:
+        200:
+          description: OK
+          
+          
+  /Producto:
+    post:
+      tags:
+        - "Producto"
+      summary: "Agregá una sucursal"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Recibe un json con los datos del producto"
+        schema:
+          $ref: '#/definitions/Producto'
+      responses:
+        200:
+          description: OK
+          
+          
+  /Sucursal-Producto:
+    post:
+      tags:
+        - "Sucursal-Producto"
+      summary: "Agregá una relación sucursal producto"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Recibe un json con los datos de la sucursal y el producto"
+        schema:
+          $ref: '#/definitions/SucursalProducto'
+      responses:
+        200:
+          description: OK
+          
+  /compresion/:
+    post:
+      tags:
+        - "CompresionData"
+      summary: "Comprime la data de los  3 árboles "
+      description: "se deja vacía la ruta"
+      responses:
+        200:
+          description: OK
+  /compresion/{arbol}:
+    post:
+      tags:
+        - "CompresionData"
+      summary: "Comprime la data de los árboles "
+      parameters:
+      - in: "path"
+        name: arbol
+        required: true
+        type: "string"
+        description: "Se manda sucursal, producto o sucursalproducto para comprimir el árbol que deseé"
+      responses:
+        200:
+          description: OK
+          
+          
+          
+  /descompresion:
+    post:
+      tags:
+        - "DescompresionData"
+      summary: "Descomprime data de un árbol"
+      description: "Se subé el archivo que se desea descomprimir desde el from-data tipo file"
+      responses:
+        200:
+          description: OK
+          
+          
+  /Modificar{nombre}:
+    post:
+      tags:
+        - "Modificar"
+      summary: "Modifica un elemento"
+      parameters:
+      - in: "path"
+        name: nombre
+        required: true
+        type: "string"
+        description: "se inserta Sucursal, Producto, Sucursal-Producto para escoger el árbol donde sea Modificar"
+      - in: "body"
+        name: "body"
+        description: "Necesita un FormData" 
+        schema:
+          $ref: "#/definitions/Modificar"
+      responses:
+        200:
+          description: OK
+          
+  /Buscar/{nombre}:
+    post:
+      tags:
+        - "Buscar"
+      summary: "Buscar un elemento"
+      description: "el id que desea buscar lo recibe de un from data formato txt"
+      parameters:
+      - in: "path"
+        name: nombre
+        required: true
+        type: "string"
+        description: "se inserta Sucursal, Producto, Sucursal-Producto para escoger el árbol donde sea  va a buscar"
+      responses:
+        200:
+          description: OK
+          
+  /Producto_CSV:
+    post:
+      tags:
+      - "Productos Por CSV"
+      summary: "Cargar un archivo con multiples productos"
+      description: "Se manda la dirección en el from data en formato texto"
+       
+    
+      responses:
+        200:
+          description: OK
+  
+
+
+
+definitions:
+  Sucursal:
+    type: "object"
+    properties:
+      ID:
+        type: "integer"
+      Nombre:
+        type: "string"
+      Direccion:
+        type: "string"
+    xml:
+      name: "Sucursal"
+      
+  Producto:
+    type: "object"
+    properties:
+      ID:
+        type: "integer"
+      Nombre:
+        type: "string"
+      Precio:
+        type: "string"
+    xml:
+      name: "Producto"
+      
+      
+  SucursalProducto:
+    type: "object"
+    properties:
+      ID_S:
+        type: "integer"
+      ID_P:
+        type: "integer"
+      cantidad:
+        type: "integer"
+    xml:
+      name: "SucursalProducto"
+      
+  Modificar:
+    type: "object"
+    properties:
+      ID:
+        type: "integer"
+      Nombre:
+        type: "string"
+      direccion:
+        type: "string"
+      Precio:
+        type: "string"
+      identificador:
+        type: "integer"
+      ID_S:
+        type: "integer"
+      ID_P:
+        type: "integer"
+    xml:
+      name: "Modificar"
+      
+      
+ 
+ 
+      
+      
+      
+      
+      
+ 
+      
+      
+      
+      
+      
+ 
+      
+      
+      
+      
+      
+ 
+ 
+      
+      
